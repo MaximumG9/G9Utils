@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.maximumg9.g9utils.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "InGameHudMixin"
+  ],
+  "client": [
+    "ClientPlayerMixin",
+    "InGameOverlayRendererMixin",
+    "MinecraftClientMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
