@@ -32,22 +32,27 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
         field.set(fieldOwner,widgetToValueFunction.apply(this.widget));
     }
 
-
-
     public static <V> FieldWidget<?,V> create(Field field,int x,int y,int width,int height,V currentValue) {
-        if(field.getType() != currentValue.getClass()) throw new IllegalArgumentException("Field and current value aren't the same type fool");
-        if(Util.getClassStrict(currentValue).equals(Boolean.class)) {
+        Name possibleName = field.getAnnotation(Name.class);
+        String name;
+        if(possibleName == null) {
+            name = field.getName();
+        } else {
+            name = possibleName.value();
+        }
+
+        if(field.getType().equals(Boolean.class)) {
             // The type checker doesn't understand this, but this must mean that V is a Boolean
 
             var widget = new CyclingButtonWidget.Builder<>((O) -> Text.of(O.toString()))
-                    .values(Boolean.TRUE,Boolean.FALSE)
+                    .values(true,false)
                     .initially(currentValue)
                     .build(
                         x,
                         y,
                         width,
                         height,
-                        Text.of(field.getName() + ": ")
+                        Text.of(name + ": ")
                     );
 
             return new FieldWidget<>(field, widget, (w) -> (V) w.getValue());
@@ -59,15 +64,16 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                 int min = (int)possibleRange.min();
                 int max = (int)possibleRange.max();
 
+                String finalName = name;
                 var widget = new SliderWidget(
                     x,y,
                     width,height,
-                    Text.of(field.getName() + ": " + currentValue),
+                    Text.of(finalName + ": " + currentValue),
                     ((double)((int) currentValue - min)/(max-min))
                     ) {
                     @Override
                     protected void updateMessage() {
-                        this.setMessage(Text.of(field.getName() + ": " + internalValue));
+                        this.setMessage(Text.of(finalName + ": " + internalValue));
                         this.setTooltip(Tooltip.of(Text.of(String.valueOf(internalValue))));
                     }
 

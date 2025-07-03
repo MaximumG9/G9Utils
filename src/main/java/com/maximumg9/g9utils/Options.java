@@ -1,15 +1,31 @@
 package com.maximumg9.g9utils;
 
+import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Range;
 
 public class Options implements com.maximumg9.g9utils.config.Options {
+    @Name("No Fire Overlay When Resistant")
     public Boolean NoFireWhenResistant = false;
+    @Name("Crawl Walking Into Block (!)")
     public Boolean autoCrawl = false;
+    @Name("See Cos and Sin of Yaw")
     public Boolean seeCosAndSinForYaw = false;
+    @Name("See Yaw in Radians")
     public Boolean seeRadianRoundedYaw = false;
+    @Name("See Unclamped Yaw")
     public Boolean seeAccurateYaw = false;
+    @Name("Prioritize Offhand if Stripping Logs")
+    public Boolean dontStripWithItemInOffhand = false;
+    @Name("Prioritize Offhand")
+    public Boolean prioritizeOffhand = false;
+    @Name("Add Random Digits to F3")
+    public Boolean addRandomDigitsToF3 = false;
     public Boolean deceleration = true;
 
+    @Name("Yaw Decimal places")
     @Range(max = 10)
     public Integer yawDecimalPlaces = 6;
+    @Name("Number of Random Digits ")
+    @Range(max = 100)
+    public Integer numRandomDigits = 10;
 }
