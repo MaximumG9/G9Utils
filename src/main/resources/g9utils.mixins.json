@@ -4,7 +4,8 @@
   "package": "com.maximumg9.g9utils.mixins",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "InGameHudMixin"
+    "InGameHudMixin",
+    "LivingEntityMixin"
   ],
   "client": [
     "ClientPlayerMixin",

@@ -8,6 +8,7 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean seeCosAndSinForYaw = false;
     public Boolean seeRadianRoundedYaw = false;
     public Boolean seeAccurateYaw = false;
+    public Boolean deceleration = true;
 
     @Range(max = 10)
     public Integer yawDecimalPlaces = 6;
