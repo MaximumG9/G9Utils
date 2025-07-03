@@ -15,7 +15,7 @@ public abstract class LivingEntityMixin {
 
     @Inject(method="hasNoDrag",at=@At(value = "HEAD"), cancellable = true)
     public void hasNoDrag(CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(G9utils.getOptions().deceleration || this.noDrag);
+        cir.setReturnValue(!G9utils.getOptions().deceleration || this.noDrag);
     }
 
     @Redirect(method="tickMovement",at= @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;sidewaysSpeed:F", opcode = Opcodes.PUTFIELD))
