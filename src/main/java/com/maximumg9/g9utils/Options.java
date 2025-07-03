@@ -22,6 +22,8 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean addRandomDigitsToF3 = false;
     @Name("Deceleration Enabled")
     public Boolean deceleration = true;
+    @Name("See onGround")
+    public Boolean seeOnGround = true;
 
     @Name("Yaw Decimal places")
     @Range(max = 10)
