@@ -20,6 +20,7 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean prioritizeOffhand = false;
     @Name("Add Random Digits to F3")
     public Boolean addRandomDigitsToF3 = false;
+    @Name("Deceleration Enabled")
     public Boolean deceleration = true;
 
     @Name("Yaw Decimal places")
