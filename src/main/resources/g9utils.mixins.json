@@ -5,9 +5,11 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "InGameHudMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "PlayerMixin"
   ],
   "client": [
+    "ClientCommonNetworkHandlerMixin",
     "ClientPlayerMixin",
     "ClientPlayNetworkHandlerMixin",
     "DebugHudMixin",

@@ -2,9 +2,12 @@ package com.maximumg9.g9utils.mixins;
 
 import com.maximumg9.g9utils.G9utils;
 import com.maximumg9.g9utils.InGameHudDuck;
+import com.maximumg9.g9utils.ClientCommonNetworkHandlerMixinDuck;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.network.ClientCommonNetworkHandler;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -28,6 +31,8 @@ public abstract class MinecraftClientMixin {
     @Shadow @Nullable public ClientPlayerEntity player;
 
     @Shadow @Nullable private IntegratedServer server;
+
+    @Shadow @Nullable public abstract ClientPlayNetworkHandler getNetworkHandler();
 
     @Redirect(method="doItemUse", at= @At(value = "INVOKE", target = "Lnet/minecraft/util/Hand;values()[Lnet/minecraft/util/Hand;"))
     private Hand[] rearrangeOrder() {
@@ -217,5 +222,34 @@ public abstract class MinecraftClientMixin {
                 () -> G9utils.getOptions().seeVel && this.server != null
             );
 
+        ((InGameHudDuck) this.inGameHud)
+            .g9Utils$addValue(
+                () -> {
+                    if(G9utils.lastSwordHitType == null) return Text.literal("");
+
+                    return G9utils.lastSwordHitType.text;
+                },
+                Text.literal("Last Hit:"),
+                () -> G9utils.getOptions().seeSwordHitType
+            );
+
+        ((InGameHudDuck) this.inGameHud)
+            .g9Utils$addValue(
+                () -> {
+                    ClientCommonNetworkHandler networkHandler = this.getNetworkHandler();
+
+                    if(networkHandler == null) return Text.literal("");
+
+                    return Text.literal(
+                        String.valueOf(
+                            ((ClientCommonNetworkHandlerMixinDuck)
+                                networkHandler)
+                                .g9Utils$isServerSideSprinting()
+                        )
+                    );
+                },
+                Text.literal("[c]sssprinting:"),
+                () -> G9utils.getOptions().seeServerSideSprint
+            );
     }
 }

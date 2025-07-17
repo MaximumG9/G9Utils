@@ -32,6 +32,10 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean seeVel = false;
     @Name("Notify On Lagback")
     public Boolean seeLagBack = false;
+    @Name("See Sword Hit Type")
+    public Boolean seeSwordHitType = false;
+    @Name("See Server Side Sprint (approx.)")
+    public Boolean seeServerSideSprint = false;
 
     @Name("Pos Decimal places")
     @Range(max = 10)

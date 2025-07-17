@@ -13,6 +13,8 @@ public class G9utils implements ModInitializer {
     private static final File FILE = new File("g9utils-options.json");
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    public static SwordHitType lastSwordHitType = null;
+
     @Override
     public void onInitialize() {
         config = new Config<>(FILE, Options::new);
