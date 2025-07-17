@@ -52,7 +52,7 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                         y,
                         width,
                         height,
-                        Text.of(name + ": ")
+                        Text.of(name)
                     );
 
             return new FieldWidget<>(field, widget, (w) -> (V) w.getValue());

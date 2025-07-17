@@ -2,6 +2,7 @@ package com.maximumg9.g9utils.mixins;
 
 import com.maximumg9.g9utils.G9utils;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.client.input.Input;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -17,6 +18,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPlayerEntity.class)
@@ -26,6 +28,8 @@ public abstract class ClientPlayerMixin extends AbstractClientPlayerEntity {
     @Shadow protected abstract void sendMovementPackets();
 
     @Shadow @Final public ClientPlayNetworkHandler networkHandler;
+
+    @Shadow public Input input;
 
     public ClientPlayerMixin(ClientWorld world, GameProfile profile) {
         super(world, profile);
@@ -47,6 +51,15 @@ public abstract class ClientPlayerMixin extends AbstractClientPlayerEntity {
         if(forceSwimming) {
             ci.cancel();
         }
+    }
+
+    @Redirect(method="tickMovement",at= @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isSprinting()Z"))
+    public boolean isSprinting(ClientPlayerEntity instance) {
+        if(instance.isSprinting() && !this.input.hasForwardMovement()) {
+            instance.setSprinting(false);
+        }
+
+        return instance.isSprinting() && !G9utils.getOptions().dontStopSprinting;
     }
 
     @Unique

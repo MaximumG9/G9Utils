@@ -24,7 +24,18 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean deceleration = true;
     @Name("See onGround")
     public Boolean seeOnGround = true;
+    @Name("See Pos")
+    public Boolean seePos = false;
+    @Name("Don't Stop Sprinting")
+    public Boolean dontStopSprinting = false;
+    @Name("See Velocity")
+    public Boolean seeVel = false;
+    @Name("Notify On Lagback")
+    public Boolean seeLagBack = false;
 
+    @Name("Pos Decimal places")
+    @Range(max = 10)
+    public Integer posDecimalPlaces = 6;
     @Name("Yaw Decimal places")
     @Range(max = 10)
     public Integer yawDecimalPlaces = 6;

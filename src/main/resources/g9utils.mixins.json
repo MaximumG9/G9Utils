@@ -9,6 +9,7 @@
   ],
   "client": [
     "ClientPlayerMixin",
+    "ClientPlayNetworkHandlerMixin",
     "DebugHudMixin",
     "InGameOverlayRendererMixin",
     "MinecraftClientMixin"

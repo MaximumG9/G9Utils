@@ -25,7 +25,7 @@ public abstract class DebugHudMixin {
         int height = 9;
 
         for(int i=0;i<G9utils.getOptions().numRandomDigits;i++) {
-            String string = String.valueOf(random.nextBetween(0,1000000000));
+            String string = String.valueOf(random.nextBetween(0,10));
             int width = this.textRenderer.getWidth(string);
             int x = random.nextBetween(0,context.getScaledWindowWidth()-width);
             int y = random.nextBetween(0,context.getScaledWindowHeight()-height);

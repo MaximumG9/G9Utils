@@ -7,6 +7,8 @@ import net.minecraft.client.RunArgs;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
@@ -20,10 +22,12 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
-public class MinecraftClientMixin {
+public abstract class MinecraftClientMixin {
     @Shadow @Final public InGameHud inGameHud;
 
     @Shadow @Nullable public ClientPlayerEntity player;
+
+    @Shadow @Nullable private IntegratedServer server;
 
     @Redirect(method="doItemUse", at= @At(value = "INVOKE", target = "Lnet/minecraft/util/Hand;values()[Lnet/minecraft/util/Hand;"))
     private Hand[] rearrangeOrder() {
@@ -91,6 +95,126 @@ public class MinecraftClientMixin {
                 },
                 Text.literal("yaw:"),
                 () -> G9utils.getOptions().seeAccurateYaw
+            );
+
+        ((InGameHudDuck) this.inGameHud)
+            .g9Utils$addValue(
+                () -> {
+                    if(this.player == null) return Text.literal("");
+
+                    return Text.literal(String.valueOf(this.player.isOnGround()));
+                },
+                Text.literal("[c]grounded:"),
+                () -> G9utils.getOptions().seeOnGround
+            );
+
+        ((InGameHudDuck) this.inGameHud)
+            .g9Utils$addValue(
+                () -> {
+                    if(this.server == null) return Text.literal("");
+
+                    if(this.player == null) return Text.literal("");
+
+                    ServerPlayerEntity p = this.server.getPlayerManager().getPlayer(this.player.getUuid());
+
+                    if(p == null) return Text.literal("");
+
+                    return Text.literal(String.valueOf(p.isOnGround()));
+                },
+                Text.literal("[s]grounded:"),
+                () -> G9utils.getOptions().seeOnGround && this.server != null
+            );
+
+        ((InGameHudDuck) this.inGameHud)
+            .g9Utils$addValue(
+                () -> {
+                    if(this.player == null) return Text.literal("");
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.getOptions().posDecimalPlaces + "f," +
+                                "%." + G9utils.getOptions().posDecimalPlaces + "f," +
+                                "%." + G9utils.getOptions().posDecimalPlaces + "f",
+                            this.player.getX(),
+                            this.player.getY(),
+                            this.player.getZ()
+                        )
+                    );
+                },
+                Text.literal("[c]pos:"),
+                () -> G9utils.getOptions().seePos
+            );
+
+        ((InGameHudDuck) this.inGameHud)
+            .g9Utils$addValue(
+                () -> {
+                    if(this.server == null) return Text.literal("");
+
+                    if(this.player == null) return Text.literal("");
+
+                    ServerPlayerEntity p = this.server.getPlayerManager().getPlayer(this.player.getUuid());
+
+                    if(p == null) return Text.literal("");
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.getOptions().posDecimalPlaces + "f," +
+                            "%." + G9utils.getOptions().posDecimalPlaces + "f," +
+                            "%." + G9utils.getOptions().posDecimalPlaces + "f",
+                            p.getX(),
+                            p.getY(),
+                            p.getZ()
+                        )
+                    );
+                },
+                Text.literal("[s]pos:"),
+                () -> G9utils.getOptions().seePos && this.server != null
+            );
+
+        ((InGameHudDuck) this.inGameHud)
+            .g9Utils$addValue(
+                () -> {
+                    if(this.player == null) return Text.literal("");
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.getOptions().posDecimalPlaces + "f," +
+                                "%." + G9utils.getOptions().posDecimalPlaces + "f," +
+                                "%." + G9utils.getOptions().posDecimalPlaces + "f",
+                            this.player.getVelocity().x,
+                            this.player.getVelocity().y,
+                            this.player.getVelocity().z
+                        )
+                    );
+                },
+                Text.literal("[c]vel:"),
+                () -> G9utils.getOptions().seeVel
+            );
+
+        ((InGameHudDuck) this.inGameHud)
+            .g9Utils$addValue(
+                () -> {
+                    if(this.server == null) return Text.literal("");
+
+                    if(this.player == null) return Text.literal("");
+
+                    ServerPlayerEntity p = this.server.getPlayerManager().getPlayer(this.player.getUuid());
+
+                    if(p == null) return Text.literal("");
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.getOptions().posDecimalPlaces + "f," +
+                                "%." + G9utils.getOptions().posDecimalPlaces + "f," +
+                                "%." + G9utils.getOptions().posDecimalPlaces + "f",
+                            p.getVelocity().x,
+                            p.getVelocity().y,
+                            p.getVelocity().z
+                        )
+                    );
+                },
+                Text.literal("[s]vel:"),
+                () -> G9utils.getOptions().seeVel && this.server != null
             );
 
     }
