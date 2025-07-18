@@ -36,6 +36,12 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean seeSwordHitType = false;
     @Name("See Server Side Sprint (approx.)")
     public Boolean seeServerSideSprint = false;
+    @Name("See Lag Affected Self (approx.)")
+    public Boolean seeLagAffectedSelf = false;
+
+    @Name("Lag in ms")
+    @Range(max=500)
+    public Integer lag = 50;
 
     @Name("Pos Decimal places")
     @Range(max = 10)

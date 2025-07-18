@@ -13,6 +13,7 @@
     "ClientPlayerMixin",
     "ClientPlayNetworkHandlerMixin",
     "DebugHudMixin",
+    "DebugRendererMixin",
     "InGameOverlayRendererMixin",
     "MinecraftClientMixin"
   ],
