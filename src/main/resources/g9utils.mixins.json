@@ -10,6 +10,7 @@
   ],
   "client": [
     "ClientCommonNetworkHandlerMixin",
+    "ClientPlayerInteractionManagerMixin",
     "ClientPlayerMixin",
     "ClientPlayNetworkHandlerMixin",
     "DebugHudMixin",

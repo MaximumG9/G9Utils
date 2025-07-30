@@ -38,6 +38,8 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean seeServerSideSprint = false;
     @Name("See Lag Affected Self (approx.)")
     public Boolean seeLagAffectedSelf = false;
+    @Name("Insta-mine same block (!)")
+    public Boolean instaMineSameBlock = false;
 
     @Name("Lag in ms")
     @Range(max=500)
