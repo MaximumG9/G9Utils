@@ -18,13 +18,13 @@ public abstract class DebugHudMixin {
 
     @Inject(method="method_51746",at=@At("TAIL"))
     public void render(DrawContext context, CallbackInfo ci) {
-        if(!G9utils.getOptions().addRandomDigitsToF3) return;
+        if(!G9utils.opt().addRandomDigitsToF3) return;
 
         Random random = Random.create();
 
         int height = 9;
 
-        for(int i=0;i<G9utils.getOptions().numRandomDigits;i++) {
+        for(int i = 0; i<G9utils.opt().numRandomDigits; i++) {
             String string = String.valueOf(random.nextBetween(0,10));
             int width = this.textRenderer.getWidth(string);
             int x = random.nextBetween(0,context.getScaledWindowWidth()-width);

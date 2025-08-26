@@ -15,7 +15,7 @@ public class InGameOverlayRendererMixin {
     @Inject(method="renderFireOverlay",at=@At("HEAD"),cancellable = true)
     private static void renderFireOverlay(MinecraftClient client, MatrixStack matrices, CallbackInfo ci) {
         assert client.player != null;
-        if( G9utils.getOptions().NoFireWhenResistant && (
+        if( G9utils.opt().NoFireWhenResistant && (
                 client.player.isInvulnerableTo(client.world.getDamageSources().onFire()) ||
                 !client.player.canTakeDamage() ||
                 client.player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)

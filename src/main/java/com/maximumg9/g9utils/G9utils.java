@@ -43,8 +43,8 @@ public class G9utils implements ModInitializer {
     }
     
 
-    public static Options getOptions() {
-        return config.getOptions();
+    public static Options opt() {
+        return config.opt();
     }
 
     public static Config<Options> getConfig() {

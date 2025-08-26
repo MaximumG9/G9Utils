@@ -21,7 +21,7 @@ public class ConfigScreen<O extends Options> extends Screen {
 
     public ConfigScreen(Screen parent, Config<O> config) {
         super(Text.of(config.getClass().getSimpleName()));
-        this.configClass = Util.getClassStrict(config.getOptions());
+        this.configClass = Util.getClassStrict(config.opt());
         this.config = config;
         this.parent = parent;
     }
@@ -32,7 +32,7 @@ public class ConfigScreen<O extends Options> extends Screen {
         int y = PADDING;
         for(Field field : List.of(this.configClass.getFields())) {
             try {
-                FieldWidget<?,?> widget = FieldWidget.create(field,x,y,WIDGET_WIDTH,WIDGET_HEIGHT,field.get(config.getOptions()));
+                FieldWidget<?,?> widget = FieldWidget.create(field,x,y,WIDGET_WIDTH,WIDGET_HEIGHT,field.get(config.opt()));
                 widgets.add(widget);
                 this.addDrawableChild(widget.getWidget());
                 x += WIDGET_WIDTH + PADDING;
@@ -49,7 +49,7 @@ public class ConfigScreen<O extends Options> extends Screen {
     public void close() {
         widgets.forEach((widget) -> {
             try {
-                widget.save(config.getOptions());
+                widget.save(config.opt());
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }

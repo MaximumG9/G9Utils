@@ -27,7 +27,7 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
 
     @Inject(method="onPlayerPositionLook",at=@At("TAIL"))
     public void onLagBack(PlayerPositionLookS2CPacket packet, CallbackInfo ci, @Local PlayerEntity player) {
-        if(G9utils.getOptions().seeLagBack) {
+        if(G9utils.opt().seeLagBack) {
             boolean xRelat = packet.getFlags().contains(PositionFlag.X);
             boolean yRelat = packet.getFlags().contains(PositionFlag.Y);
             boolean zRelat = packet.getFlags().contains(PositionFlag.Z);

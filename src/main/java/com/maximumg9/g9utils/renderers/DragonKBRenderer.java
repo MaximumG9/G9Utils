@@ -24,7 +24,7 @@ public class DragonKBRenderer implements DebugRenderer.Renderer {
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, double cameraX, double cameraY, double cameraZ) {
-        DragonOptions dragonOpts = G9utils.getOptions().dragonOptions.getOptions();
+        DragonOptions dragonOpts = G9utils.opt().dragonOptions.opt();
         if(!dragonOpts.showDragonHitboxes) { return; }
 
         matrices.push();

@@ -24,7 +24,7 @@ public class Config<O extends Options> {
         writer.close();
     }
 
-    public O getOptions() {
+    public O opt() {
         return this.options;
     }
 

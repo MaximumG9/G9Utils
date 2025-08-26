@@ -39,9 +39,9 @@ public abstract class MinecraftClientMixin {
         if(this.player == null) throw new IllegalStateException("WTF");
         if((
                 this.player.getStackInHand(Hand.MAIN_HAND).isIn(ItemTags.AXES) &&
-                G9utils.getOptions().dontStripWithItemInOffhand
+                G9utils.opt().dontStripWithItemInOffhand
             ) ||
-            G9utils.getOptions().prioritizeOffhand
+            G9utils.opt().prioritizeOffhand
         ) {
             return new Hand[] {Hand.OFF_HAND, Hand.MAIN_HAND};
         }
@@ -57,10 +57,10 @@ public abstract class MinecraftClientMixin {
 
                     float s = MathHelper.sin(this.player.getYaw() * 0.017453292F);
 
-                    return Text.literal(String.format("%." + G9utils.getOptions().yawDecimalPlaces + "f",s));
+                    return Text.literal(String.format("%." + G9utils.opt().yawDecimalPlaces + "f",s));
                 },
                 Text.literal("sin(yaw):"),
-                () -> G9utils.getOptions().seeCosAndSinForYaw
+                () -> G9utils.opt().seeCosAndSinForYaw
             );
 
         ((InGameHudDuck) this.inGameHud)
@@ -70,10 +70,10 @@ public abstract class MinecraftClientMixin {
 
                     float c = MathHelper.cos(this.player.getYaw() * 0.017453292F);
 
-                    return Text.literal(String.format("%." + G9utils.getOptions().yawDecimalPlaces + "f",c));
+                    return Text.literal(String.format("%." + G9utils.opt().yawDecimalPlaces + "f",c));
                 },
                 Text.literal("cos(yaw):"),
-                () -> G9utils.getOptions().seeCosAndSinForYaw
+                () -> G9utils.opt().seeCosAndSinForYaw
             );
 
         ((InGameHudDuck) this.inGameHud)
@@ -85,10 +85,10 @@ public abstract class MinecraftClientMixin {
 
                     double degRadYaw = ((double)radYaw) * 180.0/Math.PI;
 
-                    return Text.literal(String.format("%." + G9utils.getOptions().yawDecimalPlaces + "f",degRadYaw));
+                    return Text.literal(String.format("%." + G9utils.opt().yawDecimalPlaces + "f",degRadYaw));
                 },
                 Text.literal("radian rounded yaw:"),
-                () -> G9utils.getOptions().seeRadianRoundedYaw
+                () -> G9utils.opt().seeRadianRoundedYaw
             );
 
         ((InGameHudDuck) this.inGameHud)
@@ -96,10 +96,10 @@ public abstract class MinecraftClientMixin {
                 () -> {
                     if(this.player == null) return Text.literal("");
 
-                    return Text.literal(String.format("%." + G9utils.getOptions().yawDecimalPlaces + "f",this.player.getYaw()));
+                    return Text.literal(String.format("%." + G9utils.opt().yawDecimalPlaces + "f",this.player.getYaw()));
                 },
                 Text.literal("yaw:"),
-                () -> G9utils.getOptions().seeAccurateYaw
+                () -> G9utils.opt().seeAccurateYaw
             );
 
         ((InGameHudDuck) this.inGameHud)
@@ -110,7 +110,7 @@ public abstract class MinecraftClientMixin {
                     return Text.literal(String.valueOf(this.player.isOnGround()));
                 },
                 Text.literal("[c]grounded:"),
-                () -> G9utils.getOptions().seeOnGround
+                () -> G9utils.opt().seeOnGround
             );
 
         ((InGameHudDuck) this.inGameHud)
@@ -127,7 +127,7 @@ public abstract class MinecraftClientMixin {
                     return Text.literal(String.valueOf(p.isOnGround()));
                 },
                 Text.literal("[s]grounded:"),
-                () -> G9utils.getOptions().seeOnGround && this.server != null
+                () -> G9utils.opt().seeOnGround && this.server != null
             );
 
         ((InGameHudDuck) this.inGameHud)
@@ -137,9 +137,9 @@ public abstract class MinecraftClientMixin {
 
                     return Text.literal(
                         String.format(
-                            "%." + G9utils.getOptions().posDecimalPlaces + "f," +
-                                "%." + G9utils.getOptions().posDecimalPlaces + "f," +
-                                "%." + G9utils.getOptions().posDecimalPlaces + "f",
+                            "%." + G9utils.opt().posDecimalPlaces + "f," +
+                                "%." + G9utils.opt().posDecimalPlaces + "f," +
+                                "%." + G9utils.opt().posDecimalPlaces + "f",
                             this.player.getX(),
                             this.player.getY(),
                             this.player.getZ()
@@ -147,7 +147,7 @@ public abstract class MinecraftClientMixin {
                     );
                 },
                 Text.literal("[c]pos:"),
-                () -> G9utils.getOptions().seePos
+                () -> G9utils.opt().seePos
             );
 
         ((InGameHudDuck) this.inGameHud)
@@ -163,9 +163,9 @@ public abstract class MinecraftClientMixin {
 
                     return Text.literal(
                         String.format(
-                            "%." + G9utils.getOptions().posDecimalPlaces + "f," +
-                            "%." + G9utils.getOptions().posDecimalPlaces + "f," +
-                            "%." + G9utils.getOptions().posDecimalPlaces + "f",
+                            "%." + G9utils.opt().posDecimalPlaces + "f," +
+                            "%." + G9utils.opt().posDecimalPlaces + "f," +
+                            "%." + G9utils.opt().posDecimalPlaces + "f",
                             p.getX(),
                             p.getY(),
                             p.getZ()
@@ -173,7 +173,7 @@ public abstract class MinecraftClientMixin {
                     );
                 },
                 Text.literal("[s]pos:"),
-                () -> G9utils.getOptions().seePos && this.server != null
+                () -> G9utils.opt().seePos && this.server != null
             );
 
         ((InGameHudDuck) this.inGameHud)
@@ -183,9 +183,9 @@ public abstract class MinecraftClientMixin {
 
                     return Text.literal(
                         String.format(
-                            "%." + G9utils.getOptions().posDecimalPlaces + "f," +
-                                "%." + G9utils.getOptions().posDecimalPlaces + "f," +
-                                "%." + G9utils.getOptions().posDecimalPlaces + "f",
+                            "%." + G9utils.opt().posDecimalPlaces + "f," +
+                                "%." + G9utils.opt().posDecimalPlaces + "f," +
+                                "%." + G9utils.opt().posDecimalPlaces + "f",
                             this.player.getVelocity().x,
                             this.player.getVelocity().y,
                             this.player.getVelocity().z
@@ -193,7 +193,7 @@ public abstract class MinecraftClientMixin {
                     );
                 },
                 Text.literal("[c]vel:"),
-                () -> G9utils.getOptions().seeVel
+                () -> G9utils.opt().seeVel
             );
 
         ((InGameHudDuck) this.inGameHud)
@@ -209,9 +209,9 @@ public abstract class MinecraftClientMixin {
 
                     return Text.literal(
                         String.format(
-                            "%." + G9utils.getOptions().posDecimalPlaces + "f," +
-                                "%." + G9utils.getOptions().posDecimalPlaces + "f," +
-                                "%." + G9utils.getOptions().posDecimalPlaces + "f",
+                            "%." + G9utils.opt().posDecimalPlaces + "f," +
+                                "%." + G9utils.opt().posDecimalPlaces + "f," +
+                                "%." + G9utils.opt().posDecimalPlaces + "f",
                             p.getVelocity().x,
                             p.getVelocity().y,
                             p.getVelocity().z
@@ -219,7 +219,7 @@ public abstract class MinecraftClientMixin {
                     );
                 },
                 Text.literal("[s]vel:"),
-                () -> G9utils.getOptions().seeVel && this.server != null
+                () -> G9utils.opt().seeVel && this.server != null
             );
 
         ((InGameHudDuck) this.inGameHud)
@@ -230,7 +230,7 @@ public abstract class MinecraftClientMixin {
                     return G9utils.lastSwordHitType.text;
                 },
                 Text.literal("Last Hit:"),
-                () -> G9utils.getOptions().seeSwordHitType
+                () -> G9utils.opt().seeSwordHitType
             );
 
         ((InGameHudDuck) this.inGameHud)
@@ -249,7 +249,7 @@ public abstract class MinecraftClientMixin {
                     );
                 },
                 Text.literal("[c]sssprinting:"),
-                () -> G9utils.getOptions().seeServerSideSprint
+                () -> G9utils.opt().seeServerSideSprint
             );
     }
 }

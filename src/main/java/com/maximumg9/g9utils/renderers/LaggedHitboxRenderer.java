@@ -31,7 +31,7 @@ public class LaggedHitboxRenderer implements DebugRenderer.Renderer {
 
         if(!packet.changesPosition()) return;
 
-        long lag = G9utils.getOptions().lag * MS_TO_NS;
+        long lag = G9utils.opt().lag * MS_TO_NS;
 
         Box bb = this.client.player.getBoundingBox();
 
