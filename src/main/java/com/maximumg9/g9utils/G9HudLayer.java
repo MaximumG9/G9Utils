@@ -1,11 +1,15 @@
 package com.maximumg9.g9utils;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.LayeredDrawer;
+import net.minecraft.client.network.ClientCommonNetworkHandler;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,221 @@ public class G9HudLayer implements LayeredDrawer.Layer {
             y += textRenderer.fontHeight;
         }
 
+    }
+    
+    public static void initHUD(MinecraftClient client, InGameHudDuck hud) {
+        
+        
+        
+        hud.g9Utils$addValue(
+                () -> {
+                    if(client.player == null) return Text.literal("");
+
+                    float s = MathHelper.sin(client.player.getYaw() * 0.017453292F);
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.opt().hudOptions.opt().yawDecimalPlaces + "f",
+                            s
+                        )
+                    );
+                },
+                Text.literal("sin(yaw):"),
+                () -> G9utils.opt().hudOptions.opt().seeCosAndSinForYaw
+            );
+
+        hud.g9Utils$addValue(
+                () -> {
+                    if(client.player == null) return Text.literal("");
+
+                    float c = MathHelper.cos(client.player.getYaw() * 0.017453292F);
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.opt().hudOptions.opt().yawDecimalPlaces + "f",
+                            c
+                        )
+                    );
+                },
+                Text.literal("cos(yaw):"),
+                () -> G9utils.opt().hudOptions.opt().seeCosAndSinForYaw
+            );
+
+        hud.g9Utils$addValue(
+                () -> {
+                    if(client.player == null) return Text.literal("");
+
+                    float radYaw = client.player.getYaw() * 0.017453292F;
+
+                    double degRadYaw = ((double)radYaw) * 180.0/Math.PI;
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.opt().hudOptions.opt().yawDecimalPlaces + "f",
+                            degRadYaw
+                        )
+                    );
+                },
+                Text.literal("radian rounded yaw:"),
+                () -> G9utils.opt().hudOptions.opt().seeRadianRoundedYaw
+            );
+
+        hud.g9Utils$addValue(
+                () -> {
+                    if(client.player == null) return Text.literal("");
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.opt().hudOptions.opt().yawDecimalPlaces + "f",
+                            client.player.getYaw()
+                        )
+                    );
+                },
+                Text.literal("yaw:"),
+                () -> G9utils.opt().hudOptions.opt().seeAccurateYaw
+            );
+
+        hud.g9Utils$addValue(
+                () -> {
+                    if(client.player == null) return Text.literal("");
+
+                    return Text.literal(String.valueOf(client.player.isOnGround()));
+                },
+                Text.literal("[c]grounded:"),
+                () -> G9utils.opt().hudOptions.opt().seeOnGround
+            );
+
+        hud.g9Utils$addValue(
+                () -> {
+                    if(client.getServer() == null) return Text.literal("");
+
+                    if(client.player == null) return Text.literal("");
+
+                    ServerPlayerEntity p = client.getServer().getPlayerManager().getPlayer(client.player.getUuid());
+
+                    if(p == null) return Text.literal("");
+
+                    return Text.literal(String.valueOf(p.isOnGround()));
+                },
+                Text.literal("[s]grounded:"),
+                () -> G9utils.opt().hudOptions.opt().seeOnGround && client.getServer() != null
+            );
+
+        hud.g9Utils$addValue(
+                () -> {
+                    if(client.player == null) return Text.literal("");
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f",
+                            client.player.getX(),
+                            client.player.getY(),
+                            client.player.getZ()
+                        )
+                    );
+                },
+                Text.literal("[c]pos:"),
+                () -> G9utils.opt().hudOptions.opt().seePos
+            );
+
+        hud.g9Utils$addValue(
+                () -> {
+                    if(client.getServer() == null) return Text.literal("");
+
+                    if(client.player == null) return Text.literal("");
+
+                    ServerPlayerEntity p = client.getServer().getPlayerManager().getPlayer(client.player.getUuid());
+
+                    if(p == null) return Text.literal("");
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f",
+                            p.getX(),
+                            p.getY(),
+                            p.getZ()
+                        )
+                    );
+                },
+                Text.literal("[s]pos:"),
+                () -> G9utils.opt().hudOptions.opt().seePos && client.getServer() != null
+            );
+
+        hud.g9Utils$addValue(
+                () -> {
+                    if(client.player == null) return Text.literal("");
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f",
+                            client.player.getVelocity().x,
+                            client.player.getVelocity().y,
+                            client.player.getVelocity().z
+                        )
+                    );
+                },
+                Text.literal("[c]vel:"),
+                () -> G9utils.opt().hudOptions.opt().seeVel
+            );
+
+        hud.g9Utils$addValue(
+                () -> {
+                    if(client.getServer() == null) return Text.literal("");
+
+                    if(client.player == null) return Text.literal("");
+
+                    ServerPlayerEntity p = client.getServer().getPlayerManager().getPlayer(client.player.getUuid());
+
+                    if(p == null) return Text.literal("");
+
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
+                            "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f",
+                            p.getVelocity().x,
+                            p.getVelocity().y,
+                            p.getVelocity().z
+                        )
+                    );
+                },
+                Text.literal("[s]vel:"),
+                () -> G9utils.opt().hudOptions.opt().seeVel && client.getServer() != null
+            );
+
+        hud.g9Utils$addValue(
+                () -> {
+                    if(G9utils.lastSwordHitType == null) return Text.literal("");
+
+                    return G9utils.lastSwordHitType.text;
+                },
+                Text.literal("Last Hit:"),
+                () -> G9utils.opt().hudOptions.opt().seeSwordHitType
+            );
+
+        hud.g9Utils$addValue(
+                () -> {
+                    ClientCommonNetworkHandler networkHandler = client.getNetworkHandler();
+
+                    if(networkHandler == null) return Text.literal("");
+
+                    return Text.literal(
+                        String.valueOf(
+                            ((ClientCommonNetworkHandlerMixinDuck)
+                                networkHandler)
+                                .g9Utils$isServerSideSprinting()
+                        )
+                    );
+                },
+                Text.literal("[c]sssprinting:"),
+                () -> G9utils.opt().hudOptions.opt().seeServerSideSprint
+            );
     }
 
     private record Value(Supplier<Text> getter, Text name, Supplier<Boolean> shouldRender) {}
