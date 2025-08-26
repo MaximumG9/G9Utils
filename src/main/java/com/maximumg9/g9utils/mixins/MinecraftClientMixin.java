@@ -57,7 +57,7 @@ public abstract class MinecraftClientMixin {
 
                     float s = MathHelper.sin(this.player.getYaw() * 0.017453292F);
 
-                    return Text.literal(String.valueOf(s));
+                    return Text.literal(String.format("%." + G9utils.getOptions().yawDecimalPlaces + "f",s));
                 },
                 Text.literal("sin(yaw):"),
                 () -> G9utils.getOptions().seeCosAndSinForYaw
@@ -70,7 +70,7 @@ public abstract class MinecraftClientMixin {
 
                     float c = MathHelper.cos(this.player.getYaw() * 0.017453292F);
 
-                    return Text.literal(String.valueOf(c));
+                    return Text.literal(String.format("%." + G9utils.getOptions().yawDecimalPlaces + "f",c));
                 },
                 Text.literal("cos(yaw):"),
                 () -> G9utils.getOptions().seeCosAndSinForYaw

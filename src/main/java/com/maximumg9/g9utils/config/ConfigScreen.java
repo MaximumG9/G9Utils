@@ -17,11 +17,13 @@ public class ConfigScreen<O extends Options> extends Screen {
     private final Config<O> config;
     private final Class<O> configClass;
     private final List<FieldWidget<?,?>> widgets = new ArrayList<>();
+    private final Screen parent;
 
-    public ConfigScreen(Config<O> config) {
+    public ConfigScreen(Screen parent, Config<O> config) {
         super(Text.of(config.getClass().getSimpleName()));
         this.configClass = Util.getClassStrict(config.getOptions());
         this.config = config;
+        this.parent = parent;
     }
 
     @Override
@@ -57,6 +59,6 @@ public class ConfigScreen<O extends Options> extends Screen {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        super.close();
+        this.client.setScreen(this.parent);
     }
 }

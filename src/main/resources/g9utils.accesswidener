@@ -1,0 +1,6 @@
+accessWidener v2 named
+
+accessible field net/minecraft/entity/boss/dragon/EnderDragonEntity leftWing Lnet/minecraft/entity/boss/dragon/EnderDragonPart;
+accessible field net/minecraft/entity/boss/dragon/EnderDragonEntity rightWing Lnet/minecraft/entity/boss/dragon/EnderDragonPart;
+accessible field net/minecraft/entity/boss/dragon/EnderDragonEntity neck Lnet/minecraft/entity/boss/dragon/EnderDragonPart;
+accessible field net/minecraft/entity/boss/dragon/EnderDragonEntity body Lnet/minecraft/entity/boss/dragon/EnderDragonPart;

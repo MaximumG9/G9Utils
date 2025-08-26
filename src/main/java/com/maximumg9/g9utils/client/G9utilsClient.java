@@ -22,7 +22,12 @@ public class G9utilsClient implements ClientModInitializer {
                             .executes((context) -> {
                                 var client = context.getSource().getClient();
                                 client.send(() ->
-                                    client.setScreen(new ConfigScreen<>(G9utils.getConfig()))
+                                    client.setScreen(
+                                        new ConfigScreen<>(
+                                            client.currentScreen,
+                                            G9utils.getConfig()
+                                        )
+                                    )
                                 );
                                 return 0;
                             })

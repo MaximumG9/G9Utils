@@ -1,10 +1,12 @@
 package com.maximumg9.g9utils.config;
 
 import com.maximumg9.g9utils.Util;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.tooltip.Tooltip;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;
@@ -32,7 +34,8 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
         field.set(fieldOwner,widgetToValueFunction.apply(this.widget));
     }
 
-    public static <V> FieldWidget<?,V> create(Field field,int x,int y,int width,int height,V currentValue) {
+    @SuppressWarnings("unchecked")
+    public static <V, O extends Options> FieldWidget<?,V> create(Field field,int x,int y,int width,int height,V currentValue) {
         Name possibleName = field.getAnnotation(Name.class);
         String name;
         if(possibleName == null) {
@@ -56,8 +59,7 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                     );
 
             return new FieldWidget<>(field, widget, (w) -> (V) w.getValue());
-        }
-        if(Util.getClassStrict(currentValue).equals(Integer.class)) {
+        } else if(Util.getClassStrict(currentValue).equals(Integer.class)) {
             Range possibleRange = field.getAnnotation(Range.class);
 
             if(possibleRange != null) {
@@ -91,7 +93,36 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
 
                 return new FieldWidget<>(field, widget, (w) -> (V) ((Integer) w.getValue()));
             }
+        } else if(currentValue instanceof Config<?> conf) {
+            return (FieldWidget<?, V>) getConfigButton(
+                conf,field,
+                name,
+                x,y,
+                width,height
+            );
         }
         throw new IllegalArgumentException("NUH UH! THAT'S NOT A VALID TYPE YOU!!!!");
+    }
+
+    private static <O extends Options>
+    FieldWidget<ConfigButton<O>,Config<O>>
+    getConfigButton(
+        Config<O> config,
+        Field field,
+        String name,
+        int x, int y,
+        int width, int height
+    ) {
+        var widget = new ConfigButton.Builder<>(
+            Text.literal(name),
+            config
+        ).dimensions(x, y, width, height).build();
+
+        return new FieldWidget<>(
+            field,
+            widget,
+            (w) ->
+                w.config
+        );
     }
 }

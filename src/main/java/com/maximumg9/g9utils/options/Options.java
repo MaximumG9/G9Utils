@@ -1,5 +1,6 @@
-package com.maximumg9.g9utils;
+package com.maximumg9.g9utils.options;
 
+import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Range;
 
@@ -41,15 +42,18 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     @Name("Insta-mine same block (!)")
     public Boolean instaMineSameBlock = false;
 
+    @Name("Dragon Hitboxes")
+    public Config<DragonOptions> dragonOptions = DragonOptions.create();
+
     @Name("Lag in ms")
     @Range(max=500)
     public Integer lag = 50;
 
     @Name("Pos Decimal places")
-    @Range(max = 10)
+    @Range(max = 32)
     public Integer posDecimalPlaces = 6;
     @Name("Yaw Decimal places")
-    @Range(max = 10)
+    @Range(max = 32)
     public Integer yawDecimalPlaces = 6;
     @Name("Number of Random Digits ")
     @Range(max = 100)

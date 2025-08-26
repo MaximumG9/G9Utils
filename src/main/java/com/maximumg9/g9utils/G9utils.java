@@ -1,6 +1,7 @@
 package com.maximumg9.g9utils;
 
 import com.maximumg9.g9utils.config.Config;
+import com.maximumg9.g9utils.options.Options;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
