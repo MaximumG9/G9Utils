@@ -25,8 +25,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ClientPlayerMixin extends AbstractClientPlayerEntity {
     @Shadow public abstract void move(MovementType movementType, Vec3d movement);
 
-    @Shadow protected abstract void sendMovementPackets();
-
     @Shadow @Final public ClientPlayNetworkHandler networkHandler;
 
     @Shadow public Input input;
@@ -59,7 +57,7 @@ public abstract class ClientPlayerMixin extends AbstractClientPlayerEntity {
             instance.setSprinting(false);
         }
 
-        return instance.isSprinting() && !G9utils.opt().dontStopSprinting;
+        return instance.isSprinting() && !G9utils.opt().cheats.opt().dontStopSprinting;
     }
 
     @Unique
@@ -76,7 +74,7 @@ public abstract class ClientPlayerMixin extends AbstractClientPlayerEntity {
                         this.getBoundingBox(EntityPose.SWIMMING)
                                 .offset(this.getPos().add(movement))
                 )
-            && G9utils.opt().autoCrawl
+            && G9utils.opt().cheats.opt().autoCrawl
         ) {
             this.setPose(EntityPose.STANDING);
             this.move(MovementType.PLAYER,movement);
