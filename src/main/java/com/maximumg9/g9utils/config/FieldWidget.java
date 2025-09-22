@@ -1,12 +1,10 @@
 package com.maximumg9.g9utils.config;
 
 import com.maximumg9.g9utils.Util;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;
@@ -35,7 +33,7 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <V, O extends Options> FieldWidget<?,V> create(Field field,int x,int y,int width,int height,V currentValue) {
+    public static <V> FieldWidget<?,V> create(Field field, int x, int y, int width, int height, V currentValue) {
         Name possibleName = field.getAnnotation(Name.class);
         String name;
         if(possibleName == null) {
@@ -66,16 +64,15 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                 int min = (int)possibleRange.min();
                 int max = (int)possibleRange.max();
 
-                String finalName = name;
                 var widget = new SliderWidget(
                     x,y,
                     width,height,
-                    Text.of(finalName + ": " + currentValue),
+                    Text.of(name + ": " + currentValue),
                     ((double)((int) currentValue - min)/(max-min))
                     ) {
                     @Override
                     protected void updateMessage() {
-                        this.setMessage(Text.of(finalName + ": " + internalValue));
+                        this.setMessage(Text.of(name + ": " + internalValue));
                         this.setTooltip(Tooltip.of(Text.of(String.valueOf(internalValue))));
                     }
 

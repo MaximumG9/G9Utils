@@ -43,10 +43,8 @@ public class G9HudLayer implements LayeredDrawer.Layer {
 
     }
     
+    @SuppressWarnings("MalformedFormatString")
     public static void initHUD(MinecraftClient client, InGameHudDuck hud) {
-        
-        
-        
         hud.g9Utils$addValue(
                 () -> {
                     if(client.player == null) return Text.literal("");

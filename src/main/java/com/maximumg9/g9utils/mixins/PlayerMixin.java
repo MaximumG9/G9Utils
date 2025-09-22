@@ -12,14 +12,12 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerMixin extends LivingEntity {
-    @Shadow public abstract float getAttackCooldownProgress(float baseTime);
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -34,6 +32,7 @@ public abstract class PlayerMixin extends LivingEntity {
     public void attack(Entity target, CallbackInfo ci, @Local(ordinal = 2) float h) {
         if(this.getWorld().isClient) {
 
+            @SuppressWarnings("DataFlowIssue")
             ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
 
             boolean isServerSideSprinting = ((ClientCommonNetworkHandlerMixinDuck)

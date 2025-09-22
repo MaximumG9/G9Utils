@@ -4,6 +4,7 @@ import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Options;
 
+@SuppressWarnings("CanBeFinal")
 public class TechnicallyCheatOptions implements Options {
     public static Config<TechnicallyCheatOptions> create() {
         return new Config<>(null, TechnicallyCheatOptions::new);

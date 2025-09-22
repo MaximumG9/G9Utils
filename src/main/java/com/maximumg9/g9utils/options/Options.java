@@ -4,6 +4,7 @@ import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Range;
 
+@SuppressWarnings("CanBeFinal")
 public class Options implements com.maximumg9.g9utils.config.Options {
     @Name("HUD")
     public Config<HUDOptions> hudOptions = HUDOptions.create();

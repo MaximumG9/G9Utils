@@ -14,49 +14,49 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.lit
 public class G9utilsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            dispatcher.register(
-                literal("g9utils")
-                    .then(
-                        literal("config")
-                            .executes((context) -> {
-                                var client = context.getSource().getClient();
-                                client.send(() ->
-                                    client.setScreen(
-                                        new ConfigScreen<>(
-                                            client.currentScreen,
-                                            G9utils.getConfig()
-                                        )
+        ClientCommandRegistrationCallback.EVENT.register(
+        (dispatcher, registryAccess) ->
+        dispatcher.register(
+            literal("g9utils")
+                .then(
+                    literal("config")
+                        .executes((context) -> {
+                            var client = context.getSource().getClient();
+                            client.send(() ->
+                                client.setScreen(
+                                    new ConfigScreen<>(
+                                        client.currentScreen,
+                                        G9utils.getConfig()
                                     )
-                                );
-                                return 0;
-                            })
-                    )
-                    .then(
-                        literal("setRot")
+                                )
+                            );
+                            return 0;
+                        })
+                )
+                .then(
+                    literal("setRot")
+                        .then(
+                            argument("rotation",floatArg())
+                                .executes((ctx) -> {
+                                    ClientPlayerEntity player = ctx.getSource().getPlayer();
+                                    player.setYaw(getFloat(ctx,"rotation"));
+                                    return 1;
+                                })
+                        )
+                        .then(
+                            argument("base",floatArg())
                             .then(
-                                argument("rotation",floatArg())
+                                argument("exponent",floatArg())
                                     .executes((ctx) -> {
                                         ClientPlayerEntity player = ctx.getSource().getPlayer();
-                                        player.setYaw(getFloat(ctx,"rotation"));
+                                        float base = getFloat(ctx,"base");
+                                        float exponent = getFloat(ctx,"exponent");
+                                        player.setYaw((float) Math.pow(base,exponent));
                                         return 1;
                                     })
                             )
-                            .then(
-                                argument("base",floatArg())
-                                .then(
-                                    argument("exponent",floatArg())
-                                        .executes((ctx) -> {
-                                            ClientPlayerEntity player = ctx.getSource().getPlayer();
-                                            float base = getFloat(ctx,"base");
-                                            float exponent = getFloat(ctx,"exponent");
-                                            player.setYaw((float) Math.pow(base,exponent));
-                                            return 1;
-                                        })
-                                )
-                            )
-                    )
-            );
-        });
+                        )
+                )
+        ));
     }
 }

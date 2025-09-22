@@ -5,6 +5,7 @@ import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Options;
 import com.maximumg9.g9utils.config.Range;
 
+@SuppressWarnings("CanBeFinal")
 public class HUDOptions implements Options {
     public static Config<HUDOptions> create() {
         return new Config<>(null, HUDOptions::new);

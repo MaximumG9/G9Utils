@@ -30,6 +30,8 @@ public class DragonKBRenderer implements DebugRenderer.Renderer {
         matrices.push();
         matrices.translate(-cameraX,-cameraY,-cameraZ);
 
+        if(client.world == null) return;
+
         for(Entity e : client.world.getEntities()) {
             if(!(e instanceof EnderDragonEntity dragon)) continue;
 

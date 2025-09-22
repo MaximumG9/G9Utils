@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ConfigScreen<O extends Options> extends Screen {
     private static final int WIDGET_WIDTH = 200;
@@ -59,6 +60,7 @@ public class ConfigScreen<O extends Options> extends Screen {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        this.client.setScreen(this.parent);
+
+        Objects.requireNonNull(this.client).setScreen(this.parent);
     }
 }
