@@ -11,6 +11,7 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Box;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class LaggedHitboxRenderer implements DebugRenderer.Renderer {
@@ -61,7 +62,11 @@ public class LaggedHitboxRenderer implements DebugRenderer.Renderer {
         long time = System.nanoTime();
         synchronized (boxes) {
             if(boxes.size() > 1) {
-                while(boxes.peek().getRight() < time) {
+                while(
+                    Objects.requireNonNull(
+                        boxes.peek()
+                    ).getRight() < time
+                ) {
                     boxes.remove();
                 }
             }
