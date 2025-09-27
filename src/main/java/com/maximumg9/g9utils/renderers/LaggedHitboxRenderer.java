@@ -11,14 +11,13 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Box;
 
-import java.util.LinkedList;
-import java.util.Objects;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class LaggedHitboxRenderer implements DebugRenderer.Renderer {
 
     private final MinecraftClient client;
     // Box and System.nanoTime() timestamp to discard
-    private final LinkedList<Pair<Box,Long>> boxes = new LinkedList<>();
+    private final ConcurrentLinkedQueue<Pair<Box,Long>> boxes = new ConcurrentLinkedQueue<>();
 
     public LaggedHitboxRenderer(MinecraftClient client) {
         this.client = client;
@@ -29,15 +28,19 @@ public class LaggedHitboxRenderer implements DebugRenderer.Renderer {
     public void packet(PlayerMoveC2SPacket packet) {
         if(this.client.player == null) return;
 
+        if(!G9utils.opt().seeLagAffectedSelf) return;
+
         if(!packet.changesPosition()) return;
 
         long lag = G9utils.opt().lag * MS_TO_NS;
 
         Box bb = this.client.player.getBoundingBox();
 
-        this.boxes.add(
-            new Pair<>(bb,System.nanoTime() + lag)
-        );
+        synchronized (boxes) {
+            this.boxes.add(
+                new Pair<>(bb,System.nanoTime() + lag)
+            );
+        }
     }
 
     @Override
@@ -53,30 +56,36 @@ public class LaggedHitboxRenderer implements DebugRenderer.Renderer {
         double cameraY,
         double cameraZ
     ) {
-        if(boxes.isEmpty()) return;
+        if(!G9utils.opt().seeLagAffectedSelf) return;
+
         long time = System.nanoTime();
-        while(
-            Objects.requireNonNull(
-                boxes.peekLast()
-            ).getRight() > time
-        ) {
-            boxes.removeLast();
+        synchronized (boxes) {
+            if(boxes.size() > 1) {
+                while(boxes.peek().getRight() < time) {
+                    boxes.remove();
+                }
+            }
+
+            Pair<Box,Long> last = boxes.peek();
+
+            if(last == null) return;
+
+            matrices.push();
+            matrices.translate(-cameraX,-cameraY,-cameraZ);
+
+            WorldRenderer.drawBox(
+                matrices,
+                vertexConsumers.getBuffer(
+                    RenderLayer.getLines()
+                ),
+                last.getLeft(),
+                1.0f,
+                1.0f,
+                1.0f,
+                1.0f
+            );
+
+            matrices.pop();
         }
-
-        Pair<Box,Long> last = boxes.peekLast();
-
-        if(last == null) return;
-
-        WorldRenderer.drawBox(
-            matrices,
-            vertexConsumers.getBuffer(
-                RenderLayer.getLines()
-            ),
-            last.getLeft(),
-            1.0f,
-            1.0f,
-            1.0f,
-            1.0f
-        );
     }
 }

@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(DebugRenderer.class)
-public class DebugRendererMixin {
+public class DebugRendererMixin implements com.maximumg9.g9utils.DebugRendererMixinDuck {
     @Unique
     private LaggedHitboxRenderer laggedHitboxRenderer;
     @Unique
@@ -23,6 +23,12 @@ public class DebugRendererMixin {
     public void createOtherRenderers(MinecraftClient client, CallbackInfo ci) {
         this.laggedHitboxRenderer = new LaggedHitboxRenderer(client);
         this.dragonKBRenderer = new DragonKBRenderer(client);
+    }
+
+    @Unique
+    @Override
+    public LaggedHitboxRenderer g9Utils$getLaggedHitboxRenderer() {
+        return laggedHitboxRenderer;
     }
 
     @Inject(method="render",at=@At("TAIL"))
