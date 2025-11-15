@@ -89,6 +89,54 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                 };
 
                 return new FieldWidget<>(field, widget, (w) -> (V) ((Integer) w.getValue()));
+            } else {
+                throw new IllegalArgumentException("Number field " + field + " doesn't have a valid range");
+            }
+        } else if(Util.getClassStrict(currentValue).equals(Float.class)) {
+            Range possibleRange = field.getAnnotation(Range.class);
+
+            if(possibleRange != null) {
+                float min = (float) possibleRange.min();
+                float max = (float) possibleRange.max();
+
+                var widget = new SliderWidget(
+                    x,y,
+                    width,height,
+                    Text.of(name + ": " + String.format("%.2f",currentValue)),
+                    ((double)((float) currentValue - min)/(max-min))
+                ) {
+                    @Override
+                    protected void updateMessage() {
+                        this.setMessage(
+                            Text.of(
+                                name + ": " +
+                                    String.format("%.2f",internalValue)
+                            )
+                        );
+                        this.setTooltip(
+                            Tooltip.of(
+                                Text.of(
+                                    String.format("%.2f",internalValue)
+                                )
+                            )
+                        );
+                    }
+
+                    float internalValue = (float) currentValue;
+
+                    public float getValue() {
+                        return internalValue;
+                    }
+
+                    @Override
+                    protected void applyValue() {
+                        internalValue = (int) (this.value * (max - min)) + min;
+                    }
+                };
+
+                return new FieldWidget<>(field, widget, (w) -> (V) ((Float) w.getValue()));
+            } else {
+                throw new IllegalArgumentException("Number field " + field + " doesn't have a valid range");
             }
         } else if(currentValue instanceof Config<?> conf) {
             return (FieldWidget<?, V>) getConfigButton(
