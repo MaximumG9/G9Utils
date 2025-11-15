@@ -102,7 +102,7 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                 var widget = new SliderWidget(
                     x,y,
                     width,height,
-                    Text.of(name + ": " + String.format("%.2f",currentValue)),
+                    Text.of(name + ": " + String.format("%.1f",currentValue)),
                     ((double)((float) currentValue - min)/(max-min))
                 ) {
                     @Override
@@ -110,13 +110,13 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                         this.setMessage(
                             Text.of(
                                 name + ": " +
-                                    String.format("%.2f",internalValue)
+                                    String.format("%.1f",internalValue)
                             )
                         );
                         this.setTooltip(
                             Tooltip.of(
                                 Text.of(
-                                    String.format("%.2f",internalValue)
+                                    String.format("%.1f",internalValue)
                                 )
                             )
                         );
@@ -130,7 +130,7 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
 
                     @Override
                     protected void applyValue() {
-                        internalValue = (int) (this.value * (max - min)) + min;
+                        internalValue = (float) ((this.value * (max - min)) + min);
                     }
                 };
 
