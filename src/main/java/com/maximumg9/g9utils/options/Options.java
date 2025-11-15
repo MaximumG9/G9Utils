@@ -25,6 +25,8 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean seeLagAffectedSelf = false;
     @Name("Predict Pearl Landing (approx.)")
     public Boolean seeExpectedRandomlessPearl = false;
+    @Name("Always Render Block Entities")
+    public Boolean alwaysRenderBlockEntities = false;
 
     @Name("Dragon Hitboxes")
     public Config<DragonOptions> dragonOptions = DragonOptions.create();

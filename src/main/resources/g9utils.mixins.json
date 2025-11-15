@@ -9,6 +9,7 @@
     "PlayerMixin"
   ],
   "client": [
+    "BlockEntityRendererMixin",
     "ClientCommonNetworkHandlerMixin",
     "ClientPlayerInteractionManagerMixin",
     "ClientPlayerMixin",
