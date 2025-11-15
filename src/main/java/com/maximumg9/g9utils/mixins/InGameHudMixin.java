@@ -1,6 +1,7 @@
 package com.maximumg9.g9utils.mixins;
 
-import com.maximumg9.g9utils.G9HudLayer;
+import com.maximumg9.g9utils.renderers.G9HudLayer;
+import com.maximumg9.g9utils.renderers.LineHUD;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.LayeredDrawer;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -25,6 +26,8 @@ public abstract class InGameHudMixin implements com.maximumg9.g9utils.InGameHudD
     public LayeredDrawer addG9UtilsLayer(LayeredDrawer value) {
         this.g9Hud = new G9HudLayer(this.client.textRenderer);
         value.addLayer(this.g9Hud);
+        LineHUD lineHUD = new LineHUD();
+        value.addLayer(lineHUD);
         return value;
     }
 

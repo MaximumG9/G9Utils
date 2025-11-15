@@ -12,6 +12,9 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     @Name("Technically Cheats")
     public Config<TechnicallyCheatOptions> cheats = TechnicallyCheatOptions.create();
 
+    @Name("Useless Options")
+    public Config<UselessOptions> useless = UselessOptions.create();
+
     @Name("No Fire Overlay When Resistant")
     public Boolean NoFireWhenResistant = false;
     @Name("Add Random Digits to F3")
