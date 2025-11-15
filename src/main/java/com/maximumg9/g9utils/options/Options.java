@@ -20,6 +20,8 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean seeLagBack = false;
     @Name("See Lag Affected Self (approx.)")
     public Boolean seeLagAffectedSelf = false;
+    @Name("Predict Pearl Landing (approx.)")
+    public Boolean seeExpectedRandomlessPearl = false;
 
     @Name("Dragon Hitboxes")
     public Config<DragonOptions> dragonOptions = DragonOptions.create();

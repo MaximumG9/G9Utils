@@ -1,5 +1,8 @@
-package com.maximumg9.g9utils;
+package com.maximumg9.g9utils.renderers;
 
+import com.maximumg9.g9utils.ClientCommonNetworkHandlerMixinDuck;
+import com.maximumg9.g9utils.G9utils;
+import com.maximumg9.g9utils.InGameHudDuck;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;

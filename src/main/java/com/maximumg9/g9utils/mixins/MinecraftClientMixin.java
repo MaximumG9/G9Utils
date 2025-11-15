@@ -1,6 +1,6 @@
 package com.maximumg9.g9utils.mixins;
 
-import com.maximumg9.g9utils.G9HudLayer;
+import com.maximumg9.g9utils.renderers.G9HudLayer;
 import com.maximumg9.g9utils.G9utils;
 import com.maximumg9.g9utils.InGameHudDuck;
 import net.minecraft.client.MinecraftClient;
