@@ -17,7 +17,8 @@
     "DebugHudMixin",
     "DebugRendererMixin",
     "InGameOverlayRendererMixin",
-    "MinecraftClientMixin"
+    "MinecraftClientMixin",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public interface BlockEntityRendererMixin<T extends BlockEntity> {
     @Inject(method = "isInRenderDistance",at=@At("HEAD"),cancellable = true)
     default void isInRenderDistance(T blockEntity, Vec3d pos, CallbackInfoReturnable<Boolean> cir) {
-        if(G9utils.opt().alwaysRenderBlockEntities) {
+        if(G9utils.opt().rendering.opt().alwaysRenderBlockEntities) {
             cir.cancel();
             cir.setReturnValue(true);
         }

@@ -15,6 +15,9 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     @Name("Useless Options")
     public Config<UselessOptions> useless = UselessOptions.create();
 
+    @Name("Rendering Options")
+    public Config<RenderingOptions> rendering = RenderingOptions.create();
+
     @Name("No Fire Overlay When Resistant")
     public Boolean NoFireWhenResistant = false;
     @Name("Add Random Digits to F3")
@@ -25,8 +28,6 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean seeLagAffectedSelf = false;
     @Name("Predict Pearl Landing (approx.)")
     public Boolean seeExpectedRandomlessPearl = false;
-    @Name("Always Render Block Entities")
-    public Boolean alwaysRenderBlockEntities = false;
 
     @Name("Dragon Hitboxes")
     public Config<DragonOptions> dragonOptions = DragonOptions.create();
