@@ -3,10 +3,9 @@ package com.maximumg9.g9utils.config;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.widget.PressableTextWidget;
+import net.minecraft.client.gui.widget.ButtonWidget;
 
-public class ConfigButton<O extends Options> extends PressableTextWidget {
+public class ConfigButton<O extends Options> extends ButtonWidget.Text {
     public final Config<O> config;
 
     public ConfigButton(
@@ -14,14 +13,14 @@ public class ConfigButton<O extends Options> extends PressableTextWidget {
         int x, int y,
         int width, int height,
         net.minecraft.text.Text message,
-        TextRenderer renderer
+        NarrationSupplier narrationSupplier
     ) {
         super(
             x, y,
             width, height,
             message,
             (button) -> ConfigButton.openConfig(config),
-            renderer
+            narrationSupplier
         );
         this.config = config;
     }
@@ -43,13 +42,13 @@ public class ConfigButton<O extends Options> extends PressableTextWidget {
         private int y;
         private int width = 150;
         private int height = 20;
-        private final TextRenderer textRenderer;
+        private final NarrationSupplier narrationSupplier;
         private final Config<O> config;
 
-        public Builder(net.minecraft.text.Text message, Config<O> config, TextRenderer textRenderer) {
+        public Builder(net.minecraft.text.Text message, Config<O> config) {
+            this.narrationSupplier = ButtonWidget.DEFAULT_NARRATION_SUPPLIER;
             this.message = message;
             this.config = config;
-            this.textRenderer = textRenderer;
         }
 
         public ConfigButton.Builder<O> position(int x, int y) {
@@ -74,7 +73,7 @@ public class ConfigButton<O extends Options> extends PressableTextWidget {
                 this.x, this.y,
                 this.width, this.height,
                 this.message,
-                this.textRenderer
+                this.narrationSupplier
             );
         }
     }

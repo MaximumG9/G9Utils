@@ -1,7 +1,6 @@
 package com.maximumg9.g9utils.config;
 
 import com.maximumg9.g9utils.Util;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
@@ -163,8 +162,7 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
     ) {
         var widget = new ConfigButton.Builder<>(
             Text.literal(name),
-            config,
-            MinecraftClient.getInstance().textRenderer
+            config
         ).dimensions(x, y, width, height).build();
 
         return new FieldWidget<>(
