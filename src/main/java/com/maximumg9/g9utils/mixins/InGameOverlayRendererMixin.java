@@ -19,12 +19,10 @@ public class InGameOverlayRendererMixin {
 
     @Redirect(method="renderOverlays",at= @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isOnFire()Z"))
     private boolean renderFireOverlay(ClientPlayerEntity instance) {
-
+        if(!instance.isOnFire()) return false;
         if(this.client.world == null) return false;
         if(this.client.player == null) return false;
-        return G9utils.opt().NoFireWhenResistant && (
-            !client.player.canTakeDamage() ||
-                client.player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)
-        );
+        return !G9utils.opt().NoFireWhenResistant || (client.player.canTakeDamage() &&
+            !client.player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE));
     }
 }

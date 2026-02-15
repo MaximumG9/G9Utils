@@ -46,7 +46,7 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
         if(field.getType().equals(Boolean.class)) {
             // The type checker doesn't understand this, but this must mean that V is a Boolean
 
-            var widget = CyclingButtonWidget.<Boolean>builder(
+            var widget = CyclingButtonWidget.builder(
                 (O) -> Text.of(O.toString()),
                 (Boolean) currentValue
             )
@@ -105,7 +105,7 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                 var widget = new SliderWidget(
                     x,y,
                     width,height,
-                    Text.of(name + ": " + String.format("%.1f",currentValue)),
+                    Text.of(name + ": " + String.format("%.1f",(float) currentValue)),
                     ((double)((float) currentValue - min)/(max-min))
                 ) {
                     @Override

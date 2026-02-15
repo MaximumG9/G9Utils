@@ -20,7 +20,7 @@
     "DebugRendererMixin",
     "InGameOverlayRendererMixin",
     "MinecraftClientMixin",
-    "WorldRendererMixin"
+    "SkyRenderingMixin"
   ],
   "injectors": {
     "defaultRequire": 1

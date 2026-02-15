@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class DebugHudMixin {
     @Shadow @Final private TextRenderer textRenderer;
 
-    @Inject(method="method_51746",at=@At("TAIL"))
+    @Inject(method="render",at=@At("TAIL"))
     public void render(DrawContext context, CallbackInfo ci) {
         if(!G9utils.opt().addRandomDigitsToF3) return;
 

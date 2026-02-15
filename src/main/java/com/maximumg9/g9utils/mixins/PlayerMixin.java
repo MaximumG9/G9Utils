@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerMixin extends LivingEntity {
@@ -24,8 +25,8 @@ public abstract class PlayerMixin extends LivingEntity {
         super(entityType, world);
     }
 
-    @Inject(method = "attack",at= @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;playAttackSound(Lnet/minecraft/sound/SoundEvent;)V", ordinal = 0))
-    public void redirect(Entity target, CallbackInfo ci) {
+    @Inject(method = "tryDeflect",at= @At(value = "INVOKE", target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/Entity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;)V", ordinal = 0))
+    public void redirect(Entity entity, CallbackInfoReturnable<Boolean> cir) {
         G9utils.lastSwordHitType = SwordHitType.REDIRECT;
     }
 
