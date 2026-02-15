@@ -28,6 +28,8 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean seeLagAffectedSelf = false;
     @Name("Predict Pearl Landing (approx.)")
     public Boolean seeExpectedRandomlessPearl = false;
+    @Name("Make tweakeroo not leak itself")
+    public Boolean stopTweakerooLeak = false;
 
     @Name("Dragon Hitboxes")
     public Config<DragonOptions> dragonOptions = DragonOptions.create();

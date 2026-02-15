@@ -37,7 +37,6 @@ public class WorldRendererMixin {
     }
 
     @ModifyVariable(
-        print = true,
         method = "renderSky",
         at = @At(
             value = "INVOKE",

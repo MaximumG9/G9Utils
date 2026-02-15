@@ -20,6 +20,7 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -29,6 +30,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "com.github.sakura-ryoko:malilib:${project.malilib_version}"
+    modImplementation files("libs/tweakeroo-fabric-1.21-0.21.59.jar")
 }
 
 processResources {

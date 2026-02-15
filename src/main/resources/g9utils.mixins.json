@@ -3,10 +3,12 @@
   "minVersion": "0.8",
   "package": "com.maximumg9.g9utils.mixins",
   "compatibilityLevel": "JAVA_21",
+  "plugin": "com.maximumg9.g9utils.G9UtilsMixinPlugin",
   "mixins": [
     "InGameHudMixin",
     "LivingEntityMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "mixmixin.ServerDataSyncerMixin"
   ],
   "client": [
     "BlockEntityRendererMixin",

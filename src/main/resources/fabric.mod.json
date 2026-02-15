@@ -25,5 +25,8 @@
     "fabric": "*",
     "minecraft": "${minecraft_version}"
   },
+  "suggests": {
+    "tweakeroo": "*"
+  },
   "accessWidener": "g9utils.accesswidener"
 }
