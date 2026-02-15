@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.9-SNAPSHOT'
+    id 'fabric-loom' version "${loom_version}"
     id 'maven-publish'
 }
 
@@ -31,7 +31,7 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation "com.github.sakura-ryoko:malilib:${project.malilib_version}"
-    modImplementation files("libs/tweakeroo-fabric-1.21-0.21.59.jar")
+    modImplementation "com.github.sakura-ryoko:tweakeroo:${project.tweakeroo_version}"
 }
 
 processResources {
