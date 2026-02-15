@@ -52,7 +52,7 @@ public class DragonKBRenderer implements DebugRenderer.Renderer {
                 .getBoundingBox()
                 .expand(1.0);
 
-            DrawStyle kbStyle = DrawStyle.filled(
+            DrawStyle kbStyle = DrawStyle.stroked(
                 ColorHelper.getArgb(
                     dragonOpts.kbRed,
                     dragonOpts.kbGreen,
@@ -69,7 +69,7 @@ public class DragonKBRenderer implements DebugRenderer.Renderer {
                 kbStyle
             );
 
-            DrawStyle dmgStyle = DrawStyle.filled(
+            DrawStyle dmgStyle = DrawStyle.stroked(
                 ColorHelper.getArgb(
                     dragonOpts.dmgRed,
                     dragonOpts.dmgGreen,
