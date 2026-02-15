@@ -8,8 +8,7 @@ cheats.
 Compiling
 =========
 * Open a shell/command prompt
-* Clone the repository \
-Something like:
+* Clone the repository with something like:
 ```
 git clone "https://github.com/MaximumG9/G9Utils.git"
 ```
