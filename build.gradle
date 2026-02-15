@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.9-SNAPSHOT'
+    id 'fabric-loom' version "${loom_version}"
     id 'maven-publish'
 }
 
@@ -21,6 +21,9 @@ repositories {
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
     maven { url 'https://jitpack.io' }
+    maven {url = "https://masa.dy.fi/maven/sakura-ryoko"
+        content {includeGroupAndSubgroups("fi.dy.masa")}
+    }
 }
 
 dependencies {
@@ -30,8 +33,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "com.github.sakura-ryoko:malilib:${project.malilib_version}"
-    modImplementation files("libs/tweakeroo-fabric-1.21-0.21.59.jar")
+    modImplementation "fi.dy.masa.malilib:malilib-fabric-${project.malilib_version}"
+    modImplementation "com.github.sakura-ryoko:tweakeroo:${project.tweakeroo_version}"
 }
 
 processResources {
