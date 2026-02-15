@@ -3,25 +3,25 @@ package com.maximumg9.g9utils.config;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.widget.PressableTextWidget;
 
-public class ConfigButton<O extends Options> extends ButtonWidget {
+public class ConfigButton<O extends Options> extends PressableTextWidget {
     public final Config<O> config;
 
     public ConfigButton(
         Config<O> config,
         int x, int y,
         int width, int height,
-        Text message,
-        NarrationSupplier narrationSupplier
+        net.minecraft.text.Text message,
+        TextRenderer renderer
     ) {
         super(
             x, y,
             width, height,
             message,
             (button) -> ConfigButton.openConfig(config),
-            narrationSupplier
+            renderer
         );
         this.config = config;
     }
@@ -38,18 +38,18 @@ public class ConfigButton<O extends Options> extends ButtonWidget {
 
     @Environment(EnvType.CLIENT)
     public static class Builder<O extends Options> {
-        private final Text message;
+        private final net.minecraft.text.Text message;
         private int x;
         private int y;
         private int width = 150;
         private int height = 20;
-        private final NarrationSupplier narrationSupplier;
+        private final TextRenderer textRenderer;
         private final Config<O> config;
 
-        public Builder(Text message, Config<O> config) {
-            this.narrationSupplier = ButtonWidget.DEFAULT_NARRATION_SUPPLIER;
+        public Builder(net.minecraft.text.Text message, Config<O> config, TextRenderer textRenderer) {
             this.message = message;
             this.config = config;
+            this.textRenderer = textRenderer;
         }
 
         public ConfigButton.Builder<O> position(int x, int y) {
@@ -74,7 +74,7 @@ public class ConfigButton<O extends Options> extends ButtonWidget {
                 this.x, this.y,
                 this.width, this.height,
                 this.message,
-                this.narrationSupplier
+                this.textRenderer
             );
         }
     }

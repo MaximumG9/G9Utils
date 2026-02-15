@@ -6,7 +6,6 @@ import com.maximumg9.g9utils.InGameHudDuck;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.LayeredDrawer;
 import net.minecraft.client.network.ClientCommonNetworkHandler;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class G9HudLayer implements LayeredDrawer.Layer {
+public class G9HudLayer {
     private final List<Value> values = new ArrayList<>();
 
     private final TextRenderer textRenderer;
@@ -31,7 +30,6 @@ public class G9HudLayer implements LayeredDrawer.Layer {
         values.add(new Value(getter,name, shouldRender));
     }
 
-    @Override
     public void render(DrawContext context, RenderTickCounter tickCounter) {
         int y = 0;
 

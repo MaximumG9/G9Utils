@@ -3,19 +3,19 @@ package com.maximumg9.g9utils.renderers;
 import com.maximumg9.g9utils.G9utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.debug.DebugRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.debug.DebugDataStore;
+import net.minecraft.world.debug.gizmo.GizmoDrawing;
 
 public class PearlPathRenderer implements DebugRenderer.Renderer {
     private final MinecraftClient client;
@@ -25,7 +25,12 @@ public class PearlPathRenderer implements DebugRenderer.Renderer {
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, double cameraX, double cameraY, double cameraZ) {
+    public void render(double cameraX,
+                       double cameraY,
+                       double cameraZ,
+                       DebugDataStore store,
+                       Frustum frustum,
+                       float tickProgress) {
         if(!G9utils.opt().seeExpectedRandomlessPearl) return;
 
         ClientPlayerEntity cPlayer = client.player;
@@ -35,9 +40,8 @@ public class PearlPathRenderer implements DebugRenderer.Renderer {
 
         if(!cPlayer.getMainHandStack().isOf(Items.ENDER_PEARL)) return;
 
-        FakePearl rootPearl = new FakePearl(client.world, cPlayer);
+        FakePearl rootPearl = new FakePearl(client.world, cPlayer,cPlayer.getMainHandStack());
 
-        rootPearl.setItem(cPlayer.getMainHandStack());
         rootPearl.setVelocitySortOf(cPlayer.getPitch(), cPlayer.getYaw(), 0.0f, 1.5f, Vec3d.ZERO);
 
         int i = 0;
@@ -51,66 +55,36 @@ public class PearlPathRenderer implements DebugRenderer.Renderer {
 
         Vec3d landPos = rootPearl.tpPos;
 
-        VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getLines());
+        GizmoDrawing.line(
+            landPos.subtract(0,0.5,0),
+            landPos.add(0,0.5,0),
+            ColorHelper.getArgb(0,255,0)
+        );
 
-        matrices.push();
-        matrices.translate(-cameraX,-cameraY,-cameraZ);
+        GizmoDrawing.line(
+            landPos.subtract(0.5,0,0),
+            landPos.add(0.5,0,0),
+            ColorHelper.getArgb(255,0,0)
+        );
 
-        consumer.vertex(
-                matrices.peek(),
-                landPos.subtract(0,0.5,0).toVector3f()
-            ).color(0f,1f,0f,1f)
-            .normal(0f,1f,0f);
-
-        consumer.vertex(
-                matrices.peek(),
-                landPos.add(0,0.5,0).toVector3f()
-            ).color(0f,1f,0f,1f)
-            .normal(0f,-1f,0f);
-
-        consumer.vertex(
-                matrices.peek(),
-                landPos.subtract(0.5,0,0).toVector3f()
-            ).color(1f,0f,0f,1f)
-            .normal(1f,0f,0f);
-
-        consumer.vertex(
-                matrices.peek(),
-                landPos.add(0.5,0,0).toVector3f()
-            ).color(1f,0f,0f,1f)
-            .normal(-1f,0f,0f);
-
-        consumer.vertex(
-                matrices.peek(),
-                landPos.subtract(0,0,0.5).toVector3f()
-            ).color(0f,0f,1f,1f)
-            .normal(0f,0f,1f);
-
-        consumer.vertex(
-                matrices.peek(),
-                landPos.add(0,0,0.5).toVector3f()
-            ).color(0f,0f,1,1f)
-            .normal(0f,0f,-1f);
-
-        matrices.pop();
+        GizmoDrawing.line(
+            landPos.subtract(0,0,0.5),
+            landPos.add(0,0,0.5),
+            ColorHelper.getArgb(0,0,255)
+        );
     }
 
     private static class FakePearl extends EnderPearlEntity {
-
         private Vec3d tpPos = null;
 
-        public FakePearl(EntityType<? extends EnderPearlEntity> entityType, World world) {
-            super(entityType, world);
-        }
-
-        public FakePearl(World world, LivingEntity owner) {
-            super(world, owner);
+        public FakePearl(World world, LivingEntity owner, ItemStack stack) {
+            super(world, owner, stack);
         }
 
         @Override
         protected void onCollision(HitResult hitResult) {
             if(this.tpPos == null) {
-                this.tpPos = this.getPos();
+                this.tpPos = this.getEntityPos();
             }
         }
 
@@ -124,8 +98,8 @@ public class PearlPathRenderer implements DebugRenderer.Renderer {
             double d = vec3d.horizontalLength();
             this.setYaw((float)(MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875));
             this.setPitch((float)(MathHelper.atan2(vec3d.y, d) * 57.2957763671875));
-            this.prevYaw = this.getYaw();
-            this.prevPitch = this.getPitch();
+            this.lastYaw = this.getYaw();
+            this.lastPitch = this.getPitch();
         }
     }
 }

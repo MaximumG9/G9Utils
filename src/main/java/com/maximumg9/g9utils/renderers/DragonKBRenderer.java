@@ -3,17 +3,16 @@ package com.maximumg9.g9utils.renderers;
 import com.maximumg9.g9utils.G9utils;
 import com.maximumg9.g9utils.options.DragonOptions;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.render.DrawStyle;
+import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.debug.DebugRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.debug.DebugDataStore;
+import net.minecraft.world.debug.gizmo.GizmoDrawing;
 
 public class DragonKBRenderer implements DebugRenderer.Renderer {
     private final MinecraftClient client;
@@ -23,12 +22,14 @@ public class DragonKBRenderer implements DebugRenderer.Renderer {
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, double cameraX, double cameraY, double cameraZ) {
+    public void render(double cameraX,
+                       double cameraY,
+                       double cameraZ,
+                       DebugDataStore store,
+                       Frustum frustum,
+                       float tickProgress) {
         DragonOptions dragonOpts = G9utils.opt().dragonOptions.opt();
         if(!dragonOpts.showDragonHitboxes) { return; }
-
-        matrices.push();
-        matrices.translate(-cameraX,-cameraY,-cameraZ);
 
         if(client.world == null) return;
 
@@ -51,52 +52,38 @@ public class DragonKBRenderer implements DebugRenderer.Renderer {
                 .getBoundingBox()
                 .expand(1.0);
 
-            VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getLines());
+            DrawStyle kbStyle = DrawStyle.filled(
+                ColorHelper.getArgb(
+                    dragonOpts.kbRed,
+                    dragonOpts.kbGreen,
+                    dragonOpts.kbBlue
+                )
+            );
 
-            float kbRed = dragonOpts.kbRed / 255f;
-            float kbGreen = dragonOpts.kbGreen / 255f;
-            float kbBlue = dragonOpts.kbBlue / 255f;
-
-            WorldRenderer.drawBox(
-                matrices,
-                consumer,
+            GizmoDrawing.box(
                 leftWingKB,
-                kbRed,
-                kbGreen,
-                kbBlue,
-                1.0f
+                kbStyle
             );
-            WorldRenderer.drawBox(
-                matrices,
-                consumer,
+            GizmoDrawing.box(
                 rightWingKB,
-                kbRed,
-                kbGreen,
-                kbBlue,
-                1.0f
+                kbStyle
             );
 
-            float dmgRed = dragonOpts.dmgRed / 255f;
-            float dmgGreen = dragonOpts.dmgGreen / 255f;
-            float dmgBlue = dragonOpts.dmgBlue / 255f;
+            DrawStyle dmgStyle = DrawStyle.filled(
+                ColorHelper.getArgb(
+                    dragonOpts.dmgRed,
+                    dragonOpts.dmgGreen,
+                    dragonOpts.dmgBlue
+                )
+            );
 
-            WorldRenderer.drawBox(
-                matrices,
-                consumer,
+            GizmoDrawing.box(
                 headDmg,
-                dmgRed,
-                dmgGreen,
-                dmgBlue,
-                1.0f
+                dmgStyle
             );
-            WorldRenderer.drawBox(
-                matrices,
-                consumer,
+            GizmoDrawing.box(
                 neckDmg,
-                dmgRed,
-                dmgGreen,
-                dmgBlue,
-                1.0f
+                dmgStyle
             );
 
             double centerX = (dragon.body.getBoundingBox().minX + dragon.body.getBoundingBox().maxX) / 2;
@@ -105,120 +92,27 @@ public class DragonKBRenderer implements DebugRenderer.Renderer {
             double bottomY = dragon.getBoundingBox().minY;
             double topY = dragon.getBoundingBox().maxY;
 
-            consumer.vertex(
-                matrices.peek(),
-                (float) centerX,
-                (float) bottomY,
-                (float) centerZ
-            ).color(
-                dragonOpts.centerRed,
-                dragonOpts.centerGreen,
-                dragonOpts.centerBlue,
-                255
-            ).normal(0,-1,0);
-
-            consumer.vertex(
-                matrices.peek(),
-                (float) centerX,
-                (float) topY,
-                (float) centerZ
-            ).color(
-                dragonOpts.centerRed,
-                dragonOpts.centerGreen,
-                dragonOpts.centerBlue,
-                255
-            ).normal(0,1,0);
-
-            drawCircle(
-                matrices,
-                consumer,
-                new Vec3d(
-                    centerX,
-                    (
-                        dragon.body.getBoundingBox().minY +
-                        dragon.body.getBoundingBox().maxY
-                    ) / 2,
-                    centerZ
-                ),
+            GizmoDrawing.circle(
+                new Vec3d(centerX,bottomY,centerZ),
                 (float) Math.sqrt(0.1),
-                dragonOpts.optimalRed/255f,
-                dragonOpts.optimalGreen/255f,
-                dragonOpts.optimalBlue/255f,
-                1f,
-                32
-            );
-        }
-
-        matrices.pop();
-    }
-
-    public static void drawCircle(
-        MatrixStack matricies,
-        VertexConsumer consumer,
-        Vec3d pos,
-        float radius,
-        float red,
-        float green,
-        float blue,
-        float alpha,
-        int sides
-    ) {
-        matricies.push();
-        matricies.translate(pos.x,pos.y,pos.z);
-        MatrixStack.Entry matrix = matricies.peek();
-
-        consumer.vertex(
-                matrix,
-                radius,
-                0,
-                0
-            )
-            .color(red, green, blue, alpha)
-            .normal(
-                0,
-                0,
-                1
-            );
-
-        for (float i = MathHelper.TAU/sides; i < MathHelper.TAU; i += MathHelper.TAU/sides) {
-            consumer.vertex(
-                matrix,
-                radius * MathHelper.cos(i),
-                0,
-                radius * MathHelper.sin(i)
-            )
-                .color(red, green, blue, alpha)
-                .normal(
-                    -MathHelper.sin(i),
-                    0,
-                    MathHelper.cos(i)
-                );
-
-            consumer.vertex(
-                    matrix,
-                    radius * MathHelper.cos(i),
-                    0,
-                    radius * MathHelper.sin(i)
+                DrawStyle.stroked(
+                    ColorHelper.getArgb(
+                        dragonOpts.optimalRed,
+                        dragonOpts.optimalGreen,
+                        dragonOpts.optimalBlue
+                    )
                 )
-                .color(red, green, blue, alpha)
-                .normal(
-                    -MathHelper.sin(i),
-                    0,
-                    MathHelper.cos(i)
-                );
-
-        }
-        consumer.vertex(
-            matrix,
-            radius,
-            0,
-            0
-        ).color(red, green, blue, alpha)
-            .normal(
-                0,
-                0,
-                1
             );
-        matricies.pop();
+
+            GizmoDrawing.line(
+                new Vec3d(centerX,bottomY,centerZ),
+                new Vec3d(centerX,topY,centerZ),
+                ColorHelper.getArgb(
+                    dragonOpts.centerRed,
+                    dragonOpts.centerGreen,
+                    dragonOpts.centerBlue
+                )
+            );
+        }
     }
 }

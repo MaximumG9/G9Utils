@@ -2,13 +2,10 @@ package com.maximumg9.g9utils.renderers;
 
 import com.maximumg9.g9utils.G9utils;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.LayeredDrawer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Colors;
 
-public class LineHUD implements LayeredDrawer.Layer {
-
-    @Override
+public class LineHUD {
     public void render(DrawContext context, RenderTickCounter tickCounter) {
         if(!G9utils.opt().useless.opt().seeSquareGrid) return;
         int minDim = Math.min(context.getScaledWindowHeight(),context.getScaledWindowWidth());

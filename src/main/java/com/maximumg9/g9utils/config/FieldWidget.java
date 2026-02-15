@@ -1,6 +1,7 @@
 package com.maximumg9.g9utils.config;
 
 import com.maximumg9.g9utils.Util;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
@@ -45,16 +46,18 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
         if(field.getType().equals(Boolean.class)) {
             // The type checker doesn't understand this, but this must mean that V is a Boolean
 
-            var widget = new CyclingButtonWidget.Builder<>((O) -> Text.of(O.toString()))
-                    .values(true,false)
-                    .initially(currentValue)
-                    .build(
-                        x,
-                        y,
-                        width,
-                        height,
-                        Text.of(name)
-                    );
+            var widget = CyclingButtonWidget.<Boolean>builder(
+                (O) -> Text.of(O.toString()),
+                (Boolean) currentValue
+            )
+                .values(true,false)
+                .build(
+                    x,
+                    y,
+                    width,
+                    height,
+                    Text.of(name)
+                );
 
             return new FieldWidget<>(field, widget, (w) -> (V) w.getValue());
         } else if(Util.getClassStrict(currentValue).equals(Integer.class)) {
@@ -160,7 +163,8 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
     ) {
         var widget = new ConfigButton.Builder<>(
             Text.literal(name),
-            config
+            config,
+            MinecraftClient.getInstance().textRenderer
         ).dimensions(x, y, width, height).build();
 
         return new FieldWidget<>(

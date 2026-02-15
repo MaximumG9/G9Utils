@@ -64,15 +64,15 @@ public abstract class ClientPlayerMixin extends AbstractClientPlayerEntity {
     @Override
     public void travel(Vec3d movementInput) {
         Vec3d movement = inputToVelocity(movementInput,this.getMovementSpeed(),this.getYaw());
-        if(!this.getWorld()
+        if(!this.getEntityWorld()
             .isSpaceEmpty(
             this,
-                this.getBoundingBox(this.getPose()).offset(this.getPos().add(movement))
-            ) && this.getWorld()
+                this.getBoundingBox(this.getPose()).offset(this.getEntityPos().add(movement))
+            ) && this.getEntityWorld()
                 .isSpaceEmpty(
                         this,
                         this.getBoundingBox(EntityPose.SWIMMING)
-                                .offset(this.getPos().add(movement))
+                                .offset(this.getEntityPos().add(movement))
                 )
             && G9utils.opt().cheats.opt().autoCrawl
         ) {
@@ -84,11 +84,11 @@ public abstract class ClientPlayerMixin extends AbstractClientPlayerEntity {
             Vec3d smallMove = new Vec3d(Math.signum(movement.x),Math.signum(movement.y),Math.signum(movement.z));
             smallMove = smallMove.multiply(1E-6);
 
-            Vec3d start = this.getPos();
+            Vec3d start = this.getEntityPos();
             Vec3d fin = start.add(smallMove);
             this.setPos(fin.x,fin.y,fin.z);
 
-            this.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(this.getX(), this.getY(), this.getZ(), this.isOnGround()));
+            this.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(this.getX(), this.getY(), this.getZ(), this.isOnGround(),false));
         } else {
             super.travel(movementInput);
         }

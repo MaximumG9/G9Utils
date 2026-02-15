@@ -6,10 +6,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientCommonNetworkHandler;
 import net.minecraft.client.network.ClientConnectionState;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.entity.EntityPosition;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
-import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -28,43 +28,16 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
     @Inject(method="onPlayerPositionLook",at=@At("TAIL"))
     public void onLagBack(PlayerPositionLookS2CPacket packet, CallbackInfo ci, @Local PlayerEntity player) {
         if(G9utils.opt().seeLagBack) {
-            boolean xRelat = packet.getFlags().contains(PositionFlag.X);
-            boolean yRelat = packet.getFlags().contains(PositionFlag.Y);
-            boolean zRelat = packet.getFlags().contains(PositionFlag.Z);
-
-            boolean yawRelat = packet.getFlags().contains(PositionFlag.X_ROT);
-            boolean pitchRelat = packet.getFlags().contains(PositionFlag.Y_ROT);
+            EntityPosition entityPosition = EntityPosition.fromEntity(player);
+            EntityPosition entityPosition2 = EntityPosition.apply(entityPosition, packet.change(), packet.relatives());
 
             MutableText text = Text.literal("[LB] ").styled(style -> style.withColor(Formatting.YELLOW));
 
-            double x;
-            double y;
-            double z;
-
-            if(xRelat) { x = player.getX() + packet.getX();}
-            else { x = packet.getX(); }
-            if(yRelat) { y = player.getY() + packet.getY();}
-            else { y = packet.getY(); }
-            if(zRelat) { z = player.getZ() + packet.getZ();}
-            else { z = packet.getZ(); }
-
-            float yaw;
-            float pitch;
-
-            if(yawRelat) { yaw = player.getYaw() + packet.getYaw();}
-            else { yaw = packet.getYaw(); }
-            if(pitchRelat) { pitch = player.getPitch() + packet.getPitch();}
-            else { pitch = packet.getPitch(); }
-
-            text.append(String.valueOf(x))
-                .append(",")
-                .append(String.valueOf(y))
-                .append(",")
-                .append(String.valueOf(z))
+            text.append(entityPosition2.position().toString())
                 .append(":")
-                .append(String.valueOf(pitch))
+                .append(String.valueOf(entityPosition2.pitch()))
                 .append(",")
-                .append(String.valueOf(yaw));
+                .append(String.valueOf(entityPosition2.yaw()));
 
             this.client.inGameHud.getChatHud().addMessage(text);
         }

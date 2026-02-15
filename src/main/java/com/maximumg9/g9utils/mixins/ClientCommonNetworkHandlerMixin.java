@@ -37,7 +37,7 @@ public class ClientCommonNetworkHandlerMixin implements ClientCommonNetworkHandl
     @Inject(method = "sendPacket",at=@At("HEAD"))
     public void captureMovePackets(Packet<?> packet, CallbackInfo ci) {
         if(packet instanceof PlayerMoveC2SPacket pmPacket) {
-            LaggedHitboxRenderer renderer = ((DebugRendererMixinDuck) this.client.debugRenderer)
+            LaggedHitboxRenderer renderer = ((DebugRendererMixinDuck) this.client.worldRenderer.debugRenderer)
                 .g9Utils$getLaggedHitboxRenderer();
             renderer.packet(pmPacket);
         }

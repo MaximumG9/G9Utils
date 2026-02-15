@@ -3,23 +3,28 @@ package com.maximumg9.g9utils.mixins;
 import com.maximumg9.g9utils.G9utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameOverlayRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffects;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(InGameOverlayRenderer.class)
 public class InGameOverlayRendererMixin {
-    @Inject(method="renderFireOverlay",at=@At("HEAD"),cancellable = true)
-    private static void renderFireOverlay(MinecraftClient client, MatrixStack matrices, CallbackInfo ci) {
-        assert client.player != null;
-        if(client.world == null) return;
-        if( G9utils.opt().NoFireWhenResistant && (
-                client.player.isInvulnerableTo(client.world.getDamageSources().onFire()) ||
-                !client.player.canTakeDamage() ||
+    @Shadow
+    @Final
+    private MinecraftClient client;
+
+    @Redirect(method="renderOverlays",at= @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isOnFire()Z"))
+    private boolean renderFireOverlay(ClientPlayerEntity instance) {
+
+        if(this.client.world == null) return false;
+        if(this.client.player == null) return false;
+        return G9utils.opt().NoFireWhenResistant && (
+            !client.player.canTakeDamage() ||
                 client.player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)
-            )) ci.cancel();
+        );
     }
 }

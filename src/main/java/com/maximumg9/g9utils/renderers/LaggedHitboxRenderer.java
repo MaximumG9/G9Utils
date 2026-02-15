@@ -2,14 +2,15 @@ package com.maximumg9.g9utils.renderers;
 
 import com.maximumg9.g9utils.G9utils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.render.DrawStyle;
+import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.debug.DebugRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.ColorHelper;
+import net.minecraft.world.debug.DebugDataStore;
+import net.minecraft.world.debug.gizmo.GizmoDrawing;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -44,17 +45,13 @@ public class LaggedHitboxRenderer implements DebugRenderer.Renderer {
     }
 
     @Override
-    public void clear() {
-        this.boxes.clear();
-    }
-
-    @Override
     public void render(
-        MatrixStack matrices,
-        VertexConsumerProvider vertexConsumers,
         double cameraX,
         double cameraY,
-        double cameraZ
+        double cameraZ,
+        DebugDataStore store,
+        Frustum frustum,
+        float var9
     ) {
         if(!G9utils.opt().seeLagAffectedSelf) return;
 
@@ -73,22 +70,10 @@ public class LaggedHitboxRenderer implements DebugRenderer.Renderer {
 
             if(last == null) return;
 
-            matrices.push();
-            matrices.translate(-cameraX,-cameraY,-cameraZ);
-
-            WorldRenderer.drawBox(
-                matrices,
-                vertexConsumers.getBuffer(
-                    RenderLayer.getLines()
-                ),
+            GizmoDrawing.box(
                 last.getLeft(),
-                1.0f,
-                1.0f,
-                1.0f,
-                1.0f
+                DrawStyle.stroked(ColorHelper.getWhite(1))
             );
-
-            matrices.pop();
         }
     }
 }
