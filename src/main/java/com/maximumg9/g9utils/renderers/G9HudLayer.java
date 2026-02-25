@@ -3,6 +3,7 @@ package com.maximumg9.g9utils.renderers;
 import com.maximumg9.g9utils.ClientCommonNetworkHandlerMixinDuck;
 import com.maximumg9.g9utils.G9utils;
 import com.maximumg9.g9utils.InGameHudDuck;
+import com.maximumg9.g9utils.PlayerMixinDuck;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -123,6 +124,15 @@ public class G9HudLayer {
                 Text.literal("[c]grounded:"),
                 () -> G9utils.opt().hudOptions.opt().seeOnGround
             );
+        hud.g9Utils$addValue(
+            () -> {
+                if(client.player == null) return Text.literal("");
+
+                return Text.literal(String.valueOf(((PlayerMixinDuck)client.player).g9Utils$wasAirborneLastFrame()));
+            },
+            Text.literal("[c]wasOnGround:"),
+            () -> G9utils.opt().hudOptions.opt().seeOnGround && G9utils.opt().cheats.opt().quakeAir
+        );
 
         hud.g9Utils$addValue(
                 () -> {
@@ -202,6 +212,34 @@ public class G9HudLayer {
                 Text.literal("[c]vel:"),
                 () -> G9utils.opt().hudOptions.opt().seeVel
             );
+        hud.g9Utils$addValue(
+            () -> {
+                if(client.player == null) return Text.literal("");
+
+                return Text.literal(
+                    String.format(
+                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f,",
+                        client.player.getVelocity().horizontalLength()
+                    )
+                );
+            },
+            Text.literal("[c]velh:"),
+            () -> G9utils.opt().hudOptions.opt().seeVel
+        );
+        hud.g9Utils$addValue(
+            () -> {
+                if(client.player == null) return Text.literal("");
+
+                return Text.literal(
+                    String.format(
+                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f,",
+                         ((PlayerMixinDuck)client.player).g9Utils$getLastCurrentSpeed()
+                    )
+                );
+            },
+            Text.literal("[c]\"currentspeed\":"),
+            () -> G9utils.opt().hudOptions.opt().seeVel && G9utils.opt().cheats.opt().quakeAir
+        );
 
         hud.g9Utils$addValue(
                 () -> {

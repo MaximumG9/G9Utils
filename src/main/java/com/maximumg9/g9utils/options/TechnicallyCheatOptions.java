@@ -3,6 +3,7 @@ package com.maximumg9.g9utils.options;
 import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Options;
+import com.maximumg9.g9utils.config.Range;
 
 @SuppressWarnings("CanBeFinal")
 public class TechnicallyCheatOptions implements Options {
@@ -10,7 +11,7 @@ public class TechnicallyCheatOptions implements Options {
         return new Config<>(null, TechnicallyCheatOptions::new);
     }
 
-    @Name("Deceleration Enabled")
+    @Name("Deceleration Enabled (!)")
     public Boolean deceleration = true;
     @Name("Don't Stop Sprinting")
     public Boolean dontStopSprinting = false;
@@ -22,4 +23,11 @@ public class TechnicallyCheatOptions implements Options {
     public Boolean dontStripWithItemInOffhand = false;
     @Name("Prioritize Offhand")
     public Boolean prioritizeOffhand = false;
+    @Name("Quake-esque Air Movement (!)")
+    public Boolean quakeAir = false;
+    @Range(min=0.0,max=20.0)
+    @Name("sv_air_accelerate")
+    public Float airAccelerate = 5.0f;
+    @Name("Remove Jump Cooldown")
+    public Boolean constantJump = false;
 }

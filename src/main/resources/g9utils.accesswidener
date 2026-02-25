@@ -4,3 +4,8 @@ accessible field net/minecraft/entity/boss/dragon/EnderDragonEntity leftWing Lne
 accessible field net/minecraft/entity/boss/dragon/EnderDragonEntity rightWing Lnet/minecraft/entity/boss/dragon/EnderDragonPart;
 accessible field net/minecraft/entity/boss/dragon/EnderDragonEntity neck Lnet/minecraft/entity/boss/dragon/EnderDragonPart;
 accessible field net/minecraft/entity/boss/dragon/EnderDragonEntity body Lnet/minecraft/entity/boss/dragon/EnderDragonPart;
+
+extendable method net/minecraft/entity/LivingEntity travelMidAir (Lnet/minecraft/util/math/Vec3d;)V
+accessible method net/minecraft/entity/LivingEntity getMovementSpeed (F)F
+
+accessible field net/minecraft/entity/LivingEntity jumpingCooldown I
