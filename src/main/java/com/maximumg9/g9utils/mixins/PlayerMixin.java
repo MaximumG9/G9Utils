@@ -119,6 +119,16 @@ public abstract class PlayerMixin extends LivingEntity implements com.maximumg9.
         }
 
         this.airAccelerate(movementInput);
+
+        // ground decel
+
+        if(this.isOnGround() && G9utils.opt().cheats.opt().deceleration) {
+            BlockPos blockPos = this.getVelocityAffectingPos();
+            float friction = MathHelper.sqrt(MathHelper.sqrt(this.getEntityWorld().getBlockState(blockPos).getBlock().getSlipperiness()));
+            Vec3d oldVelocity = this.getVelocity();
+            this.setVelocity(oldVelocity.x * friction, oldVelocity.y * 0.98, oldVelocity.z * friction);
+        }
+
         double g = -this.getEffectiveGravity() * 0.8;
 
         this.addVelocity(0,g,0);
@@ -135,7 +145,6 @@ public abstract class PlayerMixin extends LivingEntity implements com.maximumg9.
         float wishspeed = this.getMovementSpeed();
         float accel = G9utils.opt().cheats.opt().airAccelerate;
         Vec3d wishDir = getWishDir(movementInput, this.getYaw()).normalize();
-
 
         float wishspd = wishspeed;
         double addspeed, accelspeed;
@@ -156,15 +165,6 @@ public abstract class PlayerMixin extends LivingEntity implements com.maximumg9.
 
 
         this.addVelocity(wishDir.multiply(accelspeed));
-
-        // ground decel
-        if(this.isOnGround()) {
-            BlockPos blockPos = this.getVelocityAffectingPos();
-            float friction = MathHelper.sqrt(MathHelper.sqrt(this.getEntityWorld().getBlockState(blockPos).getBlock().getSlipperiness()));
-            Vec3d oldVelocity = this.getVelocity();
-            this.setVelocity(oldVelocity.x * friction, oldVelocity.y * 0.98, oldVelocity.z * friction);
-        }
-
     }
 
     @Unique
