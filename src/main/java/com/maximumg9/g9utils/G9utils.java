@@ -25,23 +25,27 @@ public class G9utils implements ModInitializer {
         } catch (IOException e) {
             // if the config file doesn't exist / is malformed save a default config file
             LOGGER.warn("Failed to read config file, overwriting", e);
-            try {
-                config = new Config<>(FILE, Options::new);
-                config.saveConfig();
-            } catch (IOException ex) {
-                LOGGER.error("Failed to save config file, we're screwed", ex);
-                throw new RuntimeException(ex);
-            }
+            config = new Config<>(FILE, Options::new);
+            forceSaveConfig();
         }
+        if(config.opt() == null) {
+            // sometimes with updates and stuff the config can be null
+            LOGGER.warn("Config file was null, overwriting");
+            config = new Config<>(FILE, Options::new);
+            forceSaveConfig();
+        }
+        forceSaveConfig();
+        LOGGER.info("Done Initializing G9Utils");
+    }
+
+    private static void forceSaveConfig() {
         try {
             config.saveConfig();
         } catch (IOException e) {
             LOGGER.error("Failed to save config file, we're screwed", e);
             throw new RuntimeException(e);
         }
-        LOGGER.info("Done Initializing G9Utils");
     }
-    
 
     public static Options opt() {
         return config.opt();

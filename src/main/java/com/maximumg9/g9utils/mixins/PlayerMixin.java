@@ -78,7 +78,7 @@ public abstract class PlayerMixin extends LivingEntity implements com.maximumg9.
         }
         Vec3d vec3d = this.getVelocity();
         this.setVelocity(vec3d.x, Math.max(f, vec3d.y), vec3d.z);
-        if (this.isSprinting() && !G9utils.opt().cheats.opt().quakeAir) {
+        if (this.isSprinting() && !G9utils.opt().cheats.quakeAir) {
             float g = this.getYaw() * ((float)Math.PI / 180);
             this.addVelocityInternal(new Vec3d((double)(-MathHelper.sin(g)) * 0.2, 0.0, (double)MathHelper.cos(g) * 0.2));
         }
@@ -110,7 +110,7 @@ public abstract class PlayerMixin extends LivingEntity implements com.maximumg9.
         if(
             !this.getEntityWorld().isClient() ||
             (this.isOnGround() && !lastTickAirborne) ||
-            !G9utils.opt().cheats.opt().quakeAir ||
+            !G9utils.opt().cheats.quakeAir ||
             (this.abilities.flying)
         ) {
             super.travelMidAir(movementInput);
@@ -122,7 +122,7 @@ public abstract class PlayerMixin extends LivingEntity implements com.maximumg9.
 
         // ground decel
 
-        if(this.isOnGround() && G9utils.opt().cheats.opt().deceleration) {
+        if(this.isOnGround() && G9utils.opt().cheats.deceleration) {
             BlockPos blockPos = this.getVelocityAffectingPos();
             float friction = MathHelper.sqrt(MathHelper.sqrt(this.getEntityWorld().getBlockState(blockPos).getBlock().getSlipperiness()));
             Vec3d oldVelocity = this.getVelocity();
@@ -143,7 +143,7 @@ public abstract class PlayerMixin extends LivingEntity implements com.maximumg9.
     @Unique
     public void airAccelerate(Vec3d movementInput) {
         float wishspeed = this.getMovementSpeed();
-        float accel = G9utils.opt().cheats.opt().airAccelerate;
+        float accel = G9utils.opt().cheats.airAccelerate;
         Vec3d wishDir = getWishDir(movementInput, this.getYaw()).normalize();
 
         float wishspd = wishspeed;
@@ -180,10 +180,11 @@ public abstract class PlayerMixin extends LivingEntity implements com.maximumg9.
 
     @Inject(method = "tickMovement",at=@At("HEAD"))
     public void tickMovement(CallbackInfo ci) {
-        if(G9utils.opt().cheats.opt().constantJump)
+        if(G9utils.opt().cheats.constantJump)
             this.jumpingCooldown = 0;
     }
     /// Original Quake AirAccelerate
+    /// ```
     ///void PM_AirAccelerate (vec3_t wishdir, float wishspeed, float accel)
     ///{
     ///    int			i;
@@ -207,4 +208,5 @@ public abstract class PlayerMixin extends LivingEntity implements com.maximumg9.
     ///    for (i=0 ; i<3 ; i++)
     ///        pmove.velocity[i] += accelspeed*wishdir[i];
     ///}
+    /// ```
 }

@@ -1,6 +1,5 @@
 package com.maximumg9.g9utils.config;
 
-import com.maximumg9.g9utils.Util;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
@@ -42,12 +41,11 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
             name = possibleName.value();
         }
 
-        if(field.getType().equals(Boolean.class)) {
+        if(currentValue instanceof Boolean bValue) {
             // The type checker doesn't understand this, but this must mean that V is a Boolean
-
             var widget = CyclingButtonWidget.builder(
                 (O) -> Text.of(O.toString()),
-                (Boolean) currentValue
+                bValue
             )
                 .values(true,false)
                 .build(
@@ -59,7 +57,7 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                 );
 
             return new FieldWidget<>(field, widget, (w) -> (V) w.getValue());
-        } else if(Util.getClassStrict(currentValue).equals(Integer.class)) {
+        } else if(currentValue instanceof Integer iValue) {
             Range possibleRange = field.getAnnotation(Range.class);
 
             if(possibleRange != null) {
@@ -69,8 +67,8 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                 var widget = new SliderWidget(
                     x,y,
                     width,height,
-                    Text.of(name + ": " + currentValue),
-                    ((double)((int) currentValue - min)/(max-min))
+                    Text.of(name + ": " + iValue),
+                    ((double)(iValue - min)/(max-min))
                     ) {
                     @Override
                     protected void updateMessage() {
@@ -78,7 +76,7 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                         this.setTooltip(Tooltip.of(Text.of(String.valueOf(internalValue))));
                     }
 
-                    int internalValue = (int) currentValue;
+                    int internalValue = iValue;
 
                     public int getValue() {
                         return internalValue;
@@ -94,7 +92,7 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
             } else {
                 throw new IllegalArgumentException("Number field " + field + " doesn't have a valid range");
             }
-        } else if(Util.getClassStrict(currentValue).equals(Float.class)) {
+        } else if(currentValue instanceof  Float fValue) {
             Range possibleRange = field.getAnnotation(Range.class);
 
             if(possibleRange != null) {
@@ -104,9 +102,11 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                 var widget = new SliderWidget(
                     x,y,
                     width,height,
-                    Text.of(name + ": " + String.format("%.1f",(float) currentValue)),
-                    ((double)((float) currentValue - min)/(max-min))
+                    Text.of(name + ": " + String.format("%.1f",fValue)),
+                    ((double)(fValue - min)/(max-min))
                 ) {
+                    float internalValue = fValue;
+
                     @Override
                     protected void updateMessage() {
                         this.setMessage(
@@ -124,8 +124,6 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                         );
                     }
 
-                    float internalValue = (float) currentValue;
-
                     public float getValue() {
                         return internalValue;
                     }
@@ -136,13 +134,15 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                     }
                 };
 
-                return new FieldWidget<>(field, widget, (w) -> (V) ((Float) w.getValue()));
+                return new FieldWidget<>(field, widget,
+                    (w) -> (V) ((Float) w.getValue())
+                );
             } else {
                 throw new IllegalArgumentException("Number field " + field + " doesn't have a valid range");
             }
-        } else if(currentValue instanceof Config<?> conf) {
-            return (FieldWidget<?, V>) getConfigButton(
-                conf,field,
+        } else if(currentValue instanceof Options opts) {
+            return (FieldWidget<?, V>) getOptionsButton(
+                opts,field,
                 name,
                 x,y,
                 width,height
@@ -152,9 +152,9 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
     }
 
     private static <O extends Options>
-    FieldWidget<ConfigButton<O>,Config<O>>
-    getConfigButton(
-        Config<O> config,
+    FieldWidget<ConfigButton<O>,O>
+    getOptionsButton(
+        O options,
         Field field,
         String name,
         int x, int y,
@@ -162,14 +162,14 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
     ) {
         var widget = new ConfigButton.Builder<>(
             Text.literal(name),
-            config
+            options
         ).dimensions(x, y, width, height).build();
 
         return new FieldWidget<>(
             field,
             widget,
             (w) ->
-                w.config
+                w.options
         );
     }
 }

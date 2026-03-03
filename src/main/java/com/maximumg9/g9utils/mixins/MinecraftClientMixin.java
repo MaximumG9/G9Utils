@@ -29,9 +29,9 @@ public abstract class MinecraftClientMixin {
         if(this.player == null) throw new IllegalStateException("WTF");
         if((
                 this.player.getStackInHand(Hand.MAIN_HAND).isIn(ItemTags.AXES) &&
-                G9utils.opt().cheats.opt().dontStripWithItemInOffhand
+                G9utils.opt().cheats.dontStripWithItemInOffhand
             ) ||
-            G9utils.opt().cheats.opt().prioritizeOffhand
+            G9utils.opt().cheats.prioritizeOffhand
         ) {
             return new Hand[] {Hand.OFF_HAND, Hand.MAIN_HAND};
         }

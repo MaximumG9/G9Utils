@@ -1,22 +1,21 @@
 package com.maximumg9.g9utils.options;
 
-import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Range;
 
 @SuppressWarnings("CanBeFinal")
 public class Options implements com.maximumg9.g9utils.config.Options {
     @Name("HUD")
-    public Config<HUDOptions> hudOptions = HUDOptions.create();
+    public HUDOptions hudOptions = new HUDOptions();
 
     @Name("Technically Cheats")
-    public Config<TechnicallyCheatOptions> cheats = TechnicallyCheatOptions.create();
+    public TechnicallyCheatOptions cheats = new TechnicallyCheatOptions();
 
     @Name("Useless Options")
-    public Config<UselessOptions> useless = UselessOptions.create();
+    public UselessOptions useless = new UselessOptions();
 
     @Name("Rendering Options")
-    public Config<RenderingOptions> rendering = RenderingOptions.create();
+    public RenderingOptions rendering = new RenderingOptions();
 
     @Name("No Fire Overlay When Resistant")
     public Boolean NoFireWhenResistant = false;
@@ -32,7 +31,7 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     public Boolean stopTweakerooLeak = false;
 
     @Name("Dragon Hitboxes")
-    public Config<DragonOptions> dragonOptions = DragonOptions.create();
+    public DragonOptions dragonOptions = new DragonOptions();
 
     @Name("Lag in ms")
     @Range(max=500)

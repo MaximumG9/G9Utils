@@ -1,15 +1,10 @@
 package com.maximumg9.g9utils.options;
 
-import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Options;
 import com.maximumg9.g9utils.config.Range;
 
 public class RenderingOptions implements Options {
-    public static Config<RenderingOptions> create() {
-        return new Config<>(null, RenderingOptions::new);
-    }
-
     @Name("Always Render Block Entities")
     public Boolean alwaysRenderBlockEntities = false;
 

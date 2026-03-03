@@ -57,7 +57,7 @@ public abstract class ClientPlayerMixin extends AbstractClientPlayerEntity {
             instance.setSprinting(false);
         }
 
-        return instance.isSprinting() && !G9utils.opt().cheats.opt().dontStopSprinting;
+        return instance.isSprinting() && !G9utils.opt().cheats.dontStopSprinting;
     }
 
     @Unique
@@ -74,7 +74,7 @@ public abstract class ClientPlayerMixin extends AbstractClientPlayerEntity {
                         this.getBoundingBox(EntityPose.SWIMMING)
                                 .offset(this.getEntityPos().add(movement))
                 )
-            && G9utils.opt().cheats.opt().autoCrawl
+            && G9utils.opt().cheats.autoCrawl
         ) {
             this.setPose(EntityPose.STANDING);
             this.move(MovementType.PLAYER,movement);

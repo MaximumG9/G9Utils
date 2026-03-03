@@ -7,15 +7,15 @@ import net.minecraft.util.Colors;
 
 public class LineHUD {
     public void render(DrawContext context, RenderTickCounter tickCounter) {
-        if(!G9utils.opt().useless.opt().seeSquareGrid) return;
+        if(!G9utils.opt().useless.seeSquareGrid) return;
         int minDim = Math.min(context.getScaledWindowHeight(),context.getScaledWindowWidth());
 
         int leftEdge = (context.getScaledWindowWidth() - minDim)/2;
         int topEdge = (context.getScaledWindowHeight() - minDim)/2;
 
-        double spacing = (double) minDim / G9utils.opt().useless.opt().squareGridSize;
+        double spacing = (double) minDim / G9utils.opt().useless.squareGridSize;
 
-        for(int i = 1 ;i < G9utils.opt().useless.opt().squareGridSize; i++) {
+        for(int i = 1 ;i < G9utils.opt().useless.squareGridSize; i++) {
             context.drawHorizontalLine(
                 leftEdge,
                 leftEdge + minDim,
@@ -24,7 +24,7 @@ public class LineHUD {
             );
         }
 
-        for(int i = 1 ;i < G9utils.opt().useless.opt().squareGridSize; i++) {
+        for(int i = 1 ;i < G9utils.opt().useless.squareGridSize; i++) {
             context.drawVerticalLine(
                 leftEdge + (int)(spacing * i),
                 topEdge + minDim,
