@@ -31,7 +31,6 @@ public abstract class PlayerMixin extends LivingEntity implements com.maximumg9.
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
-
     @Shadow
     @Final
     private PlayerAbilities abilities;
@@ -144,6 +143,14 @@ public abstract class PlayerMixin extends LivingEntity implements com.maximumg9.
     public void airAccelerate(Vec3d movementInput) {
         float wishspeed = this.getMovementSpeed();
         float accel = G9utils.opt().cheats.opt().airAccelerate;
+
+        if(G9utils.opt().cheats.opt().autoStrafeRotate) {
+            float velocityYaw = this.getVelocity().getYawAndPitch().y;
+            float movementYaw = movementInput.getYawAndPitch().y;
+            float lookYaw = velocityYaw + 90 * MathHelper.sign(movementYaw) - movementYaw;
+            this.setYaw(lookYaw);
+        }
+
         Vec3d wishDir = getWishDir(movementInput, this.getYaw()).normalize();
 
         float wishspd = wishspeed;

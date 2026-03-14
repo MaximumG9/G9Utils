@@ -30,4 +30,6 @@ public class TechnicallyCheatOptions implements Options {
     public Float airAccelerate = 5.0f;
     @Name("Remove Jump Cooldown")
     public Boolean constantJump = false;
+    @Name("Auto Strafejump rotate")
+    public Boolean autoStrafeRotate = false;
 }
