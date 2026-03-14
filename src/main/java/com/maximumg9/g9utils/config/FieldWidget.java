@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 
 import java.lang.reflect.Field;
@@ -147,6 +148,8 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V> {
                 x,y,
                 width,height
             );
+        } else if(currentValue instanceof KeyBinding binding) {
+
         }
         throw new IllegalArgumentException("NUH UH! THAT'S NOT A VALID TYPE YOU!!!!");
     }

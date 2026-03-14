@@ -3,6 +3,7 @@ package com.maximumg9.g9utils.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.maximumg9.g9utils.Util;
+import net.minecraft.client.option.KeyBinding;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
@@ -18,6 +19,14 @@ public class Config<O extends Options> {
         this.optionClass = Util.getClassStrict(this.options);
         this.configFile = configFile;
         GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(
+            KeyBinding.class,
+            new BindingTypeAdapters.BindingSerializer<>()
+        );
+        builder.registerTypeAdapter(
+            KeyBinding.class,
+            new BindingTypeAdapters.BindingDeserializer<>(this.options)
+        );
         this.gson = builder.create();
     }
 
