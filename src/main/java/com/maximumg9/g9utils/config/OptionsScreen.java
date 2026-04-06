@@ -1,7 +1,10 @@
 package com.maximumg9.g9utils.config;
 
 import com.maximumg9.g9utils.Util;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.KeyInput;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 
 import java.lang.reflect.Field;
@@ -19,6 +22,7 @@ public class OptionsScreen<O extends Options> extends Screen {
     private final Class<O> configClass;
     private final List<FieldWidget<?,?>> widgets = new ArrayList<>();
     private final Screen parent;
+    public KeyBinding selectedKeybind;
 
     public OptionsScreen(Screen parent, O option) {
         super(Text.of(Util.getClassStrict(option).getSimpleName()));
@@ -63,5 +67,19 @@ public class OptionsScreen<O extends Options> extends Screen {
         });
 
         Objects.requireNonNull(this.client).setScreen(this.parent);
+    }
+
+    public void update() {
+
+    }
+
+    @Override
+    public boolean keyPressed(KeyInput input) {
+        return super.keyPressed(input);
+    }
+
+    @Override
+    public boolean mouseClicked(Click click, boolean doubled) {
+        return super.mouseClicked(click, doubled);
     }
 }

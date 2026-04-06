@@ -20,7 +20,7 @@ public class HUDOptions implements Options {
 
     @Name("See Velocity")
     public Boolean seeVel = false;
-    @Name("See Sword Hit Type")
+    @Name("See Hit Type")
     public Boolean seeSwordHitType = false;
 
     @Name("Pos Decimal places")
