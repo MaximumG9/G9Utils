@@ -9,3 +9,8 @@ extendable method net/minecraft/entity/LivingEntity travelMidAir (Lnet/minecraft
 accessible method net/minecraft/entity/LivingEntity getMovementSpeed (F)F
 
 accessible field net/minecraft/entity/LivingEntity jumpingCooldown I
+
+accessible field net/minecraft/client/MinecraftClient framebuffer Lnet/minecraft/client/gl/Framebuffer;
+mutable field net/minecraft/client/MinecraftClient framebuffer Lnet/minecraft/client/gl/Framebuffer;
+
+accessible method net/minecraft/client/util/ScreenshotRecorder getScreenshotFilename (Ljava/io/File;)Ljava/io/File;

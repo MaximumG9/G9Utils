@@ -1,0 +1,34 @@
+{
+  "targets": {
+  },
+  "passes": [
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "g9utils:post/combining",
+      "inputs": [
+        {
+          "sampler_name": "i0",
+          "target": "g9utils:i0"
+        },
+        {
+          "sampler_name": "i1",
+          "target": "g9utils:i1"
+        },
+        {
+          "sampler_name": "i2",
+          "target": "g9utils:i2"
+        },
+        {
+          "sampler_name": "i3",
+          "target": "g9utils:i3"
+        },
+        {
+          "sampler_name": "i4",
+          "target": "g9utils:i4"
+        }
+      ],
+      "output": "minecraft:main",
+      "uniforms": {}
+    }
+  ]
+}

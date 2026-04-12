@@ -18,7 +18,9 @@
     "ClientPlayNetworkHandlerMixin",
     "DebugHudMixin",
     "DebugRendererMixin",
+    "GameRendererMixin",
     "InGameOverlayRendererMixin",
+    "KeyboardMixin",
     "MinecraftClientMixin",
     "SkyRenderingMixin"
   ],

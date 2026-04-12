@@ -1,5 +1,6 @@
 package com.maximumg9.g9utils.options;
 
+import com.maximumg9.g9utils.CylinderRenderHelper;
 import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Options;
@@ -26,4 +27,11 @@ public class RenderingOptions implements Options {
     @Range(max=10)
     @Name("Sun Scale")
     public Float sunScale = 0f;
+
+    @Name("Enable Cylindrical Screenshot with Shift")
+    public Boolean cylindricalScreenshot = false;
+
+    @Range(min=3,max=CylinderRenderHelper.MAX_CYLINDER_DIVISIONS)
+    @Name("Cylindrical Divisions")
+    public Integer cylindricalDivisions = 3;
 }
