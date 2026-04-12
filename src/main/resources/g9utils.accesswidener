@@ -14,3 +14,7 @@ accessible field net/minecraft/client/MinecraftClient framebuffer Lnet/minecraft
 mutable field net/minecraft/client/MinecraftClient framebuffer Lnet/minecraft/client/gl/Framebuffer;
 
 accessible method net/minecraft/client/util/ScreenshotRecorder getScreenshotFilename (Ljava/io/File;)Ljava/io/File;
+
+accessible field net/minecraft/client/gl/PostEffectProcessor passes Ljava/util/List;
+accessible field net/minecraft/client/gl/PostEffectPass uniformBuffers Ljava/util/Map;
+accessible field net/minecraft/client/gl/PostEffectPass id Ljava/lang/String;

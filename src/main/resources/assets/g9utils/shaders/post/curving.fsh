@@ -11,15 +11,16 @@ layout(std140) uniform SamplerInfo {
     vec2 InSize;
 };
 
+layout(std140) uniform CurveConfig {
+    float hFOV;
+};
+
 out vec4 fragColor;
 
 const float near_plane_distance = 0.05f;
 
-const float hFOV = (2 * PI)/3;
-
-const float near_plane_width = 2 * near_plane_distance * tan(hFOV / 2);
-
 void main() {
+    float near_plane_width = 2 * near_plane_distance * tan(hFOV / 2);
     float xAngle = (texCoord.x - 0.5) * hFOV;
 
     float newX = (((tan(xAngle) * near_plane_distance) / near_plane_width) + 0.5);

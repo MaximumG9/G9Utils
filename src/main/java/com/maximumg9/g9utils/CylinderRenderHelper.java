@@ -1,5 +1,9 @@
 package com.maximumg9.g9utils;
 
+import com.mojang.blaze3d.buffers.GpuBuffer;
+import com.mojang.blaze3d.buffers.Std140Builder;
+import com.mojang.blaze3d.buffers.Std140SizeCalculator;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.PostEffectProcessor;
@@ -17,6 +21,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Vector3f;
 import org.jspecify.annotations.Nullable;
+import org.lwjgl.system.MemoryStack;
 import org.spongepowered.asm.mixin.Unique;
 
 import java.io.File;
@@ -103,6 +108,22 @@ public class CylinderRenderHelper {
         PostEffectProcessor curveEffect = cl.getShaderLoader().loadPostEffect(CURVING, DefaultFramebufferSet.MAIN_ONLY);
         Objects.requireNonNull(cl.player);
         if (curveEffect != null) {
+            GpuBuffer curveConfigBuffer = curveEffect.passes.getFirst().uniformBuffers.get("CurveConfig");
+            curveConfigBuffer.close();
+
+            int size = new Std140SizeCalculator().putFloat().get();
+            Std140Builder builder = Std140Builder.onStack(MemoryStack.stackGet(),size);
+            builder.putFloat(MathHelper.TAU/divisions);
+
+            curveEffect.passes.getFirst().uniformBuffers.put(
+                "CurveConfig",
+                RenderSystem.getDevice().createBuffer(
+                    () -> curveEffect.passes.getFirst().id + "new/CurveConfig",
+                    GpuBuffer.USAGE_UNIFORM,
+                    builder.get()
+                )
+            );
+
             for (int i = 0; i < divisions; i++) {
                 cl.framebuffer = buffers[i];
 
