@@ -34,4 +34,10 @@ public class RenderingOptions implements Options {
     @Range(min=3,max=CylinderRenderHelper.MAX_CYLINDER_DIVISIONS)
     @Name("Cylindrical Divisions")
     public Integer cylindricalDivisions = 3;
+
+    @Name("Visualize Interpolation")
+    public Boolean visualizeInterpolation = false;
+
+    @Name("Visualize Own Interpolation")
+    public Boolean visualizeOwnInterpolation = false;
 }

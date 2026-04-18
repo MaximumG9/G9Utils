@@ -29,7 +29,7 @@ public class DragonKBRenderer implements DebugRenderer.Renderer {
                        Frustum frustum,
                        float tickProgress) {
         DragonOptions dragonOpts = G9utils.opt().dragonOptions.opt();
-        if(!dragonOpts.showDragonHitboxes) { return; }
+        if(!dragonOpts.showDragonHitboxes) return;
 
         if(client.world == null) return;
 

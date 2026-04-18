@@ -1,15 +1,32 @@
 package com.maximumg9.g9utils.mixins;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.maximumg9.g9utils.G9utils;
+import com.maximumg9.g9utils.LinearPositionalInterpolator;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.PositionInterpolator;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
+
+    @WrapOperation(method = "<init>",
+        at= @At(
+            value = "NEW",
+            args = "class=net/minecraft/entity/PositionInterpolator"
+        )
+    )
+    public PositionInterpolator fun(Entity e, Operation<PositionInterpolator> op) {
+        return new LinearPositionalInterpolator(e,null);
+    }
 
     @Shadow private boolean noDrag;
 

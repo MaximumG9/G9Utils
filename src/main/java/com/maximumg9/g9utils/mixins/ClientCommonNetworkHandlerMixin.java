@@ -1,13 +1,10 @@
 package com.maximumg9.g9utils.mixins;
 
 import com.maximumg9.g9utils.ClientCommonNetworkHandlerMixinDuck;
-import com.maximumg9.g9utils.DebugRendererMixinDuck;
-import com.maximumg9.g9utils.renderers.LaggedHitboxRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientCommonNetworkHandler;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,6 +31,7 @@ public class ClientCommonNetworkHandlerMixin implements ClientCommonNetworkHandl
         }
     }
 
+    /*
     @Inject(method = "sendPacket",at=@At("HEAD"))
     public void captureMovePackets(Packet<?> packet, CallbackInfo ci) {
         if(packet instanceof PlayerMoveC2SPacket pmPacket) {
@@ -42,6 +40,7 @@ public class ClientCommonNetworkHandlerMixin implements ClientCommonNetworkHandl
             renderer.packet(pmPacket);
         }
     }
+     */
 
     @Override
     public boolean g9Utils$isServerSideSprinting() {

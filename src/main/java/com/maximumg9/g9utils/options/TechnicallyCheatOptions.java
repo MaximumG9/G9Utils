@@ -32,4 +32,9 @@ public class TechnicallyCheatOptions implements Options {
     public Boolean constantJump = false;
     @Name("Auto Strafejump rotate")
     public Boolean autoStrafeRotate = false;
+    @Name("User Linear Multi-Tick Interpolation")
+    public Boolean disableMultiTickInterpolation = false;
+    @Name("Offset of Prediction for Linear Interpolation")
+    @Range(min=0.0,max=1.0)
+    public Float interpOffset = 0f;
 }
