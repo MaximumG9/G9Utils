@@ -1,6 +1,7 @@
-package com.maximumg9.g9utils.config;
+package com.maximumg9.g9utils.config.gui;
 
 import com.google.common.collect.ImmutableList;
+import com.maximumg9.g9utils.config.OptionsScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
@@ -19,7 +20,6 @@ import java.util.List;
 
 public class KeyBindingWidget implements ParentElement {
     private static final Text RESET_TEXT = Text.translatable("controls.reset");
-    private static final int field_49535 = 10;
     private final KeyBinding binding;
     private final Text bindingName;
     private final ButtonWidget editButton;

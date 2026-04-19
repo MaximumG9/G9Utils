@@ -24,7 +24,7 @@ public class Config<O extends Options> {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(
             KeyBinding.class,
-            new BindingTypeAdapters.BindingSerializer<>()
+            new BindingTypeAdapters.BindingSerializer()
         );
         this.bindingDeserializer = new BindingTypeAdapters.BindingDeserializer<>(this.options);
         builder.registerTypeAdapter(

@@ -1,13 +1,13 @@
 package com.maximumg9.g9utils.config;
 
 import com.maximumg9.g9utils.Util;
+import com.maximumg9.g9utils.config.gui.FieldWidget;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +19,19 @@ public class OptionsScreen<O extends Options> extends Screen {
     private static final int PADDING = 10;
 
     private final O option;
-    private final Class<O> configClass;
-    private final List<FieldWidget<?,?>> widgets = new ArrayList<>();
+    private final Class<O> optionClass;
+    private final List<FieldWidget<?,?,O>> widgets = new ArrayList<>();
     private final Screen parent;
     public KeyBinding selectedKeybind;
 
     public OptionsScreen(Screen parent, O option) {
         super(Text.of(Util.getClassStrict(option).getSimpleName()));
-        this.configClass = Util.getClassStrict(option);
+        this.optionClass = Util.getClassStrict(option);
         this.option = option;
         this.parent = parent;
     }
 
-    public static boolean isValidField(Field f, Object rootObj) {
+    public static boolean isValidField(TypedField<?,?> f, Object rootObj) {
         return (f.getModifiers() & (Modifier.STATIC | Modifier.TRANSIENT)) == 0 &&
             f.canAccess(rootObj);
     }
@@ -40,12 +40,17 @@ public class OptionsScreen<O extends Options> extends Screen {
     protected void init() {
         int x = PADDING;
         int y = PADDING;
-        for(Field field : List.of(this.configClass.getFields())) {
+        for(TypedField<?,O> field : (Iterable<TypedField<?,O>>) TypedField.getAllFields(this.optionClass)::iterator) {
             if(!isValidField(field, option)) continue;
             try {
-                FieldWidget<?,?> widget = FieldWidget.create(field,x,y,WIDGET_WIDTH,WIDGET_HEIGHT,field.get(option));
-                widgets.add(widget);
-                this.addDrawableChild(widget.getWidget());
+                FieldWidget<?,?,O> fieldWidget = FieldWidget.createBuilder(field,option).dimensions(
+                    x,y,
+                    WIDGET_WIDTH,
+                    WIDGET_HEIGHT
+                ).buildFieldWidget();
+                widgets.add(fieldWidget);
+                this.addDrawableChild(fieldWidget.getWidget());
+
                 x += WIDGET_WIDTH + PADDING;
                 if(x + WIDGET_WIDTH > this.width) {
                     x = PADDING;

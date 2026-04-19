@@ -1,13 +1,11 @@
 package com.maximumg9.g9utils.config;
 
 import com.google.gson.*;
-import com.maximumg9.g9utils.Util;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.HashMap;
 
 public class BindingTypeAdapters {
 
@@ -18,7 +16,7 @@ public class BindingTypeAdapters {
     /// private boolean pressed;
     /// private int timesPressed;
     ///
-    public static class BindingSerializer<O extends Options> implements JsonSerializer<KeyBinding> {
+    public static class BindingSerializer implements JsonSerializer<KeyBinding> {
 
         public BindingSerializer() {
 
@@ -37,7 +35,7 @@ public class BindingTypeAdapters {
         private final HashMap<InputUtil.Key,KeyBinding> customBindings = new HashMap<>();
         private final HashMap<String,KeyBinding> bindingsById = new HashMap<>();
         public BindingDeserializer(O options) {
-            for(KeyBinding binding : getAllRecursive(options, KeyBinding.class)) {
+            for(KeyBinding binding : TypedField.getAllValuesRecursive(options, KeyBinding.class)) {
                 bindingsById.put(binding.getId(),binding);
                 customBindings.put(binding.getDefaultKey(),binding);
             }
@@ -57,21 +55,5 @@ public class BindingTypeAdapters {
             binding.setBoundKey(InputUtil.fromTranslationKey(boundTranslationKey));
             return binding;
         }
-    }
-
-    private static <T,O extends Options> List<T> getAllRecursive(O opt, Class<T> searchClass) {
-        Class<O> optClass = Util.getClassStrict(opt);
-        ArrayList<T> list = new ArrayList<>();
-        for(Field field : optClass.getFields()) {
-            try {
-                Object value = field.get(opt);
-                if(searchClass.isInstance(value)) {
-                    list.add((T) value);
-                } else if(value instanceof Options valueAsOpt) {
-                    list.addAll(getAllRecursive(valueAsOpt,searchClass));
-                }
-            } catch (IllegalAccessException ignored) {}
-        }
-        return list;
     }
 }

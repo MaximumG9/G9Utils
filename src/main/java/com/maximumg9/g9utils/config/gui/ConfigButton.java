@@ -1,5 +1,8 @@
-package com.maximumg9.g9utils.config;
+package com.maximumg9.g9utils.config.gui;
 
+import com.maximumg9.g9utils.config.Options;
+import com.maximumg9.g9utils.config.OptionsScreen;
+import com.maximumg9.g9utils.config.TypedField;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -31,6 +34,24 @@ public class ConfigButton<O extends Options> extends ButtonWidget.Text {
             narrationSupplier
         );
         this.options = options;
+    }
+
+    public static <O extends Options, K>
+    FieldWidget.FieldWidgetBuilder<ConfigButton<O>,O,K>
+    builder(
+        TypedField<O,K> field,
+        O options,
+        String name
+    ) {
+        return new FieldWidget.FieldWidgetBuilder<>(
+            (x, y, width, height, name1) ->
+                new ConfigButton.Builder<>(net.minecraft.text.Text.of(name1), options)
+                    .dimensions(x, y, width, height)
+                    .build(),
+            (configButton) -> configButton.options,
+            field,
+            name
+        );
     }
 
     @Environment(EnvType.CLIENT)
