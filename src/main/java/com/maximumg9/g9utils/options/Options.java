@@ -19,8 +19,6 @@ public class Options implements com.maximumg9.g9utils.config.Options {
 
     @Name("No Fire Overlay When Resistant")
     public Boolean NoFireWhenResistant = false;
-    @Name("Add Random Digits to F3")
-    public Boolean addRandomDigitsToF3 = false;
     @Name("Notify On Lagback")
     public Boolean seeLagBack = false;
     @Name("See Lag Affected Self (approx.)")
@@ -36,8 +34,4 @@ public class Options implements com.maximumg9.g9utils.config.Options {
     @Name("Lag in ms")
     @Range(max=500)
     public Integer lag = 50;
-
-    @Name("Number of Random Digits ")
-    @Range()
-    public Integer numRandomDigits = 10;
 }

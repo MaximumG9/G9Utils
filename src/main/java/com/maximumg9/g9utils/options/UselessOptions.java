@@ -11,4 +11,9 @@ public class UselessOptions implements Options {
     @Range(min=2,max=16)
     @Name("Square Grid Size")
     public Integer squareGridSize = 9;
+    @Name("Add Random Digits to F3")
+    public Boolean addRandomDigitsToF3 = false;
+    @Name("Number of Random Digits ")
+    @Range(min=1,max=1000)
+    public Integer numRandomDigits = 10;
 }
