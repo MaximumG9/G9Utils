@@ -19,7 +19,7 @@ public class HUDOptions implements Options {
     public Boolean seeAccurateYaw = false;
 
     @Name("See onGround")
-    public Boolean seeOnGround = true;
+    public Boolean seeOnGround = false;
     @Name("See Pos")
     public Boolean seePos = false;
 
