@@ -27,8 +27,11 @@ public class LinearPositionalInterpolator extends PositionInterpolator {
 
     private boolean active = false;
 
+    private final int updateRate;
+
     public LinearPositionalInterpolator(Entity entity, @Nullable Consumer<PositionInterpolator> callback) {
         super(entity, 3, callback);
+        this.updateRate = entity.getType().getTrackTickInterval();
     }
 
     @Override
@@ -100,7 +103,7 @@ public class LinearPositionalInterpolator extends PositionInterpolator {
         this.lastRecvdYaw = lastRecvdYaw + yawDiff;
         this.lastRecvdPitch = lastRecvdPitch + pitchDiff;
 
-        float delta = Math.min((float) ticksSinceLastData,this.lerpDuration) / (this.lerpDuration - 1)
+        float delta = Math.min((float) ticksSinceLastData,this.updateRate) / (this.updateRate)
             + G9utils.opt().cheats.opt().interpOffset;
 
         // figure out why needed
