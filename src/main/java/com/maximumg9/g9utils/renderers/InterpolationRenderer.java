@@ -97,8 +97,8 @@ public class InterpolationRenderer implements DebugRenderer.Renderer {
 
             float timeFraction = (float) interpolationData.step / interpolator.lerpDuration;
 
-            int finalColor = ColorHelper.getArgb(32,0,32,0);
-            int startColor = ColorHelper.getArgb(255,0,255,0);
+            int finalColor = ColorHelper.getArgb(255,0,255,0);
+            int startColor = ColorHelper.getArgb(255,0,0,255);
 
             int currentColor = ColorHelper.lerp(timeFraction,startColor,finalColor);
 
@@ -135,8 +135,8 @@ public class InterpolationRenderer implements DebugRenderer.Renderer {
 
             if(interpolator.lastRotation != null) {
                 Vec3d lastEyePos = pos.add(0,entity.getStandingEyeHeight(),0);
-                float yaw = interpolator.lastRotation.x;
-                float pitch = interpolator.lastRotation.y;
+                float yaw = interpolator.lastRotation.y;
+                float pitch = interpolator.lastRotation.x;
 
                 GizmoDrawing.arrow(
                     lastEyePos,
