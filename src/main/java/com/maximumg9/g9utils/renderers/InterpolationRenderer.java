@@ -114,7 +114,7 @@ public class InterpolationRenderer implements DebugRenderer.Renderer {
             GizmoDrawing.arrow(
                 eyePos,
                 eyePos.add(
-                    entity.getRotationVector(pitch,yaw).multiply(2)
+                    entity.getRotationVector(pitch,yaw).multiply(3)
                 ),
                 currentColor
             );
@@ -142,7 +142,7 @@ public class InterpolationRenderer implements DebugRenderer.Renderer {
                     lastEyePos,
                     lastEyePos.add(
                         entity.getRotationVector(pitch, yaw)
-                            .multiply(2)
+                            .multiply(3)
                     ),
                     color
                 );
