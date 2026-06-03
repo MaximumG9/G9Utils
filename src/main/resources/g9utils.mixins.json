@@ -19,6 +19,7 @@
     "DebugHudMixin",
     "DebugRendererMixin",
     "GameRendererMixin",
+    "HoveredTooltipPositionerMixin",
     "InGameOverlayRendererMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",

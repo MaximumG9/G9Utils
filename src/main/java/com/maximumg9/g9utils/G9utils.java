@@ -4,6 +4,7 @@ import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.options.Options;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 
@@ -16,6 +17,11 @@ public class G9utils implements ModInitializer {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static SwordHitType lastSwordHitType = null;
+
+    public static int timeSinceLastAttack = 0;
+    public static int timeSinceLastSwap = 0;
+    public static ItemStack possibleAttributeSwapStack = null;
+    public static AttributeSwap lastAttributeSwap = null;
 
     public static Identifier id(String path) {
         return Identifier.of("g9utils",path);
@@ -46,7 +52,15 @@ public class G9utils implements ModInitializer {
         }
         LOGGER.info("Done Initializing G9Utils");
     }
-    
+
+    public static void tick() {
+        if(timeSinceLastSwap >= 0) {
+            timeSinceLastSwap++;
+        }
+        if(timeSinceLastAttack >= 0) {
+            timeSinceLastAttack++;
+        }
+    }
 
     public static Options opt() {
         return config.opt();
