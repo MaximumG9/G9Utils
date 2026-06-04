@@ -1,5 +1,6 @@
 package com.maximumg9.g9utils;
 
+import com.google.common.collect.ImmutableSet;
 import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.options.Options;
 import com.mojang.logging.LogUtils;
@@ -22,6 +23,8 @@ public class G9utils implements ModInitializer {
     public static int timeSinceLastSwap = 0;
     public static ItemStack possibleAttributeSwapStack = null;
     public static AttributeSwap lastAttributeSwap = null;
+
+    public static ImmutableSet<String> VANILLA_LANGUAGE_KEYS;
 
     public static Identifier id(String path) {
         return Identifier.of("g9utils",path);
