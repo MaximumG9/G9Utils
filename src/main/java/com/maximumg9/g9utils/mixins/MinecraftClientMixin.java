@@ -53,7 +53,7 @@ public abstract class MinecraftClientMixin {
         this.interactionManager.syncSelectedSlot();
         G9utils.timeSinceLastAttack = 0;
         if(
-            G9utils.timeSinceLastSwap <= G9utils.opt().hudOptions.opt().attributeSwapTimeout &&
+            G9utils.timeSinceLastSwap <= G9utils.opt().hudOptions.attributeSwapTimeout &&
                 G9utils.timeSinceLastSwap > 0
         ) {
             G9utils.lastAttributeSwap = new AttributeSwap.FailedAttributeSwap(

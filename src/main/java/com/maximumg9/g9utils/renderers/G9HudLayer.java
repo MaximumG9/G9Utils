@@ -293,7 +293,7 @@ public class G9HudLayer {
                 return Text.literal("No Swap Done");
             },
             Text.literal("Attribute Swap:"),
-            () -> G9utils.opt().hudOptions.opt().seeAttributeSwaps
+            () -> G9utils.opt().hudOptions.seeAttributeSwaps
         );
 
 

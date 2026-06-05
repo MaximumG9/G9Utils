@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 public abstract class KeyboardMixin {
     @Redirect(method = "onKey",at= @At(value = "INVOKE", target = "Lnet/minecraft/client/util/ScreenshotRecorder;saveScreenshot(Ljava/io/File;Lnet/minecraft/client/gl/Framebuffer;Ljava/util/function/Consumer;)V"))
     public void cylindricalSS(File gameDirectory, Framebuffer framebuffer, Consumer<Text> messageReceiver, @Local(argsOnly = true) KeyInput keyInput) {
-        if (keyInput.hasShift() && G9utils.opt().rendering.opt().cylindricalScreenshot) {
+        if (keyInput.hasShift() && G9utils.opt().rendering.cylindricalScreenshot) {
             CylinderRenderHelper.takeCylindricalScrenshot(gameDirectory,messageReceiver);
         } else {
             ScreenshotRecorder.saveScreenshot(gameDirectory, framebuffer, messageReceiver);

@@ -37,7 +37,7 @@ public abstract class ClientPlayerInteractionManagerMixin {
             G9utils.possibleAttributeSwapStack = this.client.player.getInventory().getStack(lastSelectedSlot).copy();
             G9utils.timeSinceLastSwap = 0;
             if(
-                G9utils.timeSinceLastAttack - 1 <= G9utils.opt().hudOptions.opt().attributeSwapTimeout &&
+                G9utils.timeSinceLastAttack - 1 <= G9utils.opt().hudOptions.attributeSwapTimeout &&
                     G9utils.timeSinceLastAttack - 1 > 0
             ) {
                 G9utils.lastAttributeSwap = new AttributeSwap.FailedAttributeSwap(
