@@ -27,6 +27,15 @@ public class TechnicallyCheatOptions implements Options {
     public Float airAccelerate = 5.0f;
     @Name("Remove Jump Cooldown")
     public Boolean constantJump = false;
+    @Name("Auto Strafejump rotate")
+    public Boolean autoStrafeRotate = false;
+    @Name("Use Linear Multi-Tick Interpolation")
+    public Boolean disableMultiTickInterpolation = false;
+    @Name("Disable Translation Key Based Mod Detection")
+    public Boolean dontBeEvilAndWrong = false;
+    @Name("Offset of Prediction for Linear Interpolation")
+    @Range(min=0.0,max=1.0)
+    public Float interpOffset = 0f;
 
     @Name("Test keybind")
     public Keybind testKeyBind = Keybind.fromKeycode(InputUtil.GLFW_KEY_R);

@@ -9,3 +9,30 @@ extendable method net/minecraft/entity/LivingEntity travelMidAir (Lnet/minecraft
 accessible method net/minecraft/entity/LivingEntity getMovementSpeed (F)F
 
 accessible field net/minecraft/entity/LivingEntity jumpingCooldown I
+
+accessible field net/minecraft/client/MinecraftClient framebuffer Lnet/minecraft/client/gl/Framebuffer;
+mutable field net/minecraft/client/MinecraftClient framebuffer Lnet/minecraft/client/gl/Framebuffer;
+
+accessible method net/minecraft/client/util/ScreenshotRecorder getScreenshotFilename (Ljava/io/File;)Ljava/io/File;
+
+accessible field net/minecraft/client/gl/PostEffectProcessor passes Ljava/util/List;
+accessible field net/minecraft/client/gl/PostEffectPass uniformBuffers Ljava/util/Map;
+accessible field net/minecraft/client/gl/PostEffectPass id Ljava/lang/String;
+
+accessible field net/minecraft/entity/PositionInterpolator data Lnet/minecraft/entity/PositionInterpolator$Data;
+accessible class net/minecraft/entity/PositionInterpolator$Data
+
+accessible field net/minecraft/entity/PositionInterpolator$Data pos Lnet/minecraft/util/math/Vec3d;
+accessible field net/minecraft/entity/PositionInterpolator$Data yaw F
+accessible field net/minecraft/entity/PositionInterpolator$Data pitch F
+accessible field net/minecraft/entity/PositionInterpolator$Data step I
+accessible field net/minecraft/entity/PositionInterpolator lerpDuration I
+
+accessible field net/minecraft/entity/PositionInterpolator lastPos Lnet/minecraft/util/math/Vec3d;
+accessible field net/minecraft/entity/PositionInterpolator lastRotation Lnet/minecraft/util/math/Vec2f;
+
+accessible method net/minecraft/entity/Entity refreshPosition ()V
+accessible field net/minecraft/entity/PositionInterpolator entity Lnet/minecraft/entity/Entity;
+accessible method net/minecraft/entity/Entity setRotation (FF)V
+
+accessible method net/minecraft/client/network/ClientPlayerInteractionManager syncSelectedSlot ()V

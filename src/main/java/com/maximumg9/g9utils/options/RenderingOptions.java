@@ -1,10 +1,16 @@
 package com.maximumg9.g9utils.options;
 
+import com.maximumg9.g9utils.CylinderRenderHelper;
+import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Options;
 import com.maximumg9.g9utils.config.Range;
 
 public class RenderingOptions implements Options {
+    public static Config<RenderingOptions> create() {
+        return new Config<>(null, RenderingOptions::new);
+    }
+
     @Name("Always Render Block Entities")
     public Boolean alwaysRenderBlockEntities = false;
 
@@ -21,4 +27,17 @@ public class RenderingOptions implements Options {
     @Range(max=10)
     @Name("Sun Scale")
     public Float sunScale = 0f;
+
+    @Name("Enable Cylindrical Screenshot with Shift")
+    public Boolean cylindricalScreenshot = false;
+
+    @Range(min=3,max=CylinderRenderHelper.MAX_CYLINDER_DIVISIONS)
+    @Name("Cylindrical Divisions")
+    public Integer cylindricalDivisions = 3;
+
+    @Name("Visualize Interpolation")
+    public Boolean visualizeInterpolation = false;
+
+    @Name("Visualize Own Interpolation")
+    public Boolean visualizeOwnInterpolation = false;
 }

@@ -39,7 +39,10 @@ public abstract class InGameHudMixin implements com.maximumg9.g9utils.InGameHudD
         )
     )
     public void renderHUDS(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        g9Hud.render(context, tickCounter);
+        int mouseX = (int)client.mouse.getScaledX(this.client.getWindow());
+        int mouseY = (int)client.mouse.getScaledY(this.client.getWindow());
+
+        g9Hud.render(mouseX, mouseY, context, tickCounter);
         lineHUD.render(context, tickCounter);
     }
 

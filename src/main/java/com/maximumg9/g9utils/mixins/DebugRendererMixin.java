@@ -2,7 +2,7 @@ package com.maximumg9.g9utils.mixins;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.maximumg9.g9utils.renderers.DragonKBRenderer;
-import com.maximumg9.g9utils.renderers.LaggedHitboxRenderer;
+import com.maximumg9.g9utils.renderers.InterpolationRenderer;
 import com.maximumg9.g9utils.renderers.PearlPathRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.debug.DebugRenderer;
@@ -22,19 +22,19 @@ public class DebugRendererMixin implements com.maximumg9.g9utils.DebugRendererMi
     @Final
     private List<DebugRenderer.Renderer> renderers;
     @Unique
-    private LaggedHitboxRenderer laggedHitboxRenderer;
+    private InterpolationRenderer interpolationRenderer;
 
     @Inject(method = "initRenderers",at=@At("TAIL"))
     public void createOtherRenderers(CallbackInfo ci, @Local MinecraftClient client) {
-        this.laggedHitboxRenderer = new LaggedHitboxRenderer(client);
+        this.interpolationRenderer = new InterpolationRenderer(client);
         this.renderers.add(new DragonKBRenderer(client));
         this.renderers.add(new PearlPathRenderer(client));
-        this.renderers.add(this.laggedHitboxRenderer);
+        this.renderers.add(this.interpolationRenderer);
     }
 
     @Unique
     @Override
-    public LaggedHitboxRenderer g9Utils$getLaggedHitboxRenderer() {
-        return laggedHitboxRenderer;
+    public InterpolationRenderer g9Utils$getInterlopationHitboxRenderer() {
+        return interpolationRenderer;
     }
 }

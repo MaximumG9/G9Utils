@@ -6,11 +6,14 @@
   "plugin": "com.maximumg9.g9utils.G9UtilsMixinPlugin",
   "mixins": [
     "InGameHudMixin",
+    "LanguageMixin",
     "LivingEntityMixin",
     "PlayerMixin",
     "mixmixin.ServerDataSyncerMixin"
   ],
   "client": [
+    "AbstractSignEditScreenMixin",
+    "AnvilScreenMixin",
     "BlockEntityRendererMixin",
     "ClientCommonNetworkHandlerMixin",
     "ClientPlayerInteractionManagerMixin",
@@ -18,7 +21,10 @@
     "ClientPlayNetworkHandlerMixin",
     "DebugHudMixin",
     "DebugRendererMixin",
+    "GameRendererMixin",
+    "HoveredTooltipPositionerMixin",
     "InGameOverlayRendererMixin",
+    "KeyboardMixin",
     "MinecraftClientMixin",
     "SkyRenderingMixin"
   ],

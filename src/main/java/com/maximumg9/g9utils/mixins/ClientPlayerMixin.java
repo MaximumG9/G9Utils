@@ -1,7 +1,9 @@
 package com.maximumg9.g9utils.mixins;
 
+import com.maximumg9.g9utils.DebugRendererMixinDuck;
 import com.maximumg9.g9utils.G9utils;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -29,6 +31,10 @@ public abstract class ClientPlayerMixin extends AbstractClientPlayerEntity {
 
     @Shadow public Input input;
 
+    @Shadow
+    @Final
+    protected MinecraftClient client;
+
     public ClientPlayerMixin(ClientWorld world, GameProfile profile) {
         super(world, profile);
     }
@@ -38,6 +44,9 @@ public abstract class ClientPlayerMixin extends AbstractClientPlayerEntity {
 
     @Inject(method="tick", at=@At("TAIL"))
     public void tick(CallbackInfo ci) {
+        ((DebugRendererMixinDuck) client.worldRenderer.debugRenderer)
+            .g9Utils$getInterlopationHitboxRenderer()
+            .tickNewClientPlayerPos(this.getEntityPos(),this.getPitch(),this.getYaw());
         if(forceSwimming) {
             forceSwimming = false;
             this.setPose(EntityPose.SWIMMING);

@@ -1,9 +1,12 @@
 package com.maximumg9.g9utils;
 
+import com.google.common.collect.ImmutableSet;
 import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.options.Options;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -15,6 +18,17 @@ public class G9utils implements ModInitializer {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static SwordHitType lastSwordHitType = null;
+
+    public static int timeSinceLastAttack = 0;
+    public static int timeSinceLastSwap = 0;
+    public static ItemStack possibleAttributeSwapStack = null;
+    public static AttributeSwap lastAttributeSwap = null;
+
+    public static ImmutableSet<String> VANILLA_LANGUAGE_KEYS;
+
+    public static Identifier id(String path) {
+        return Identifier.of("g9utils",path);
+    }
 
     @Override
     public void onInitialize() {
@@ -44,6 +58,15 @@ public class G9utils implements ModInitializer {
         } catch (IOException e) {
             LOGGER.error("Failed to save config file, we're screwed", e);
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void tick() {
+        if(timeSinceLastSwap >= 0) {
+            timeSinceLastSwap++;
+        }
+        if(timeSinceLastAttack >= 0) {
+            timeSinceLastAttack++;
         }
     }
 

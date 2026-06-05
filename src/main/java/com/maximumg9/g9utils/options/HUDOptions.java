@@ -14,7 +14,7 @@ public class HUDOptions implements Options {
     public Boolean seeAccurateYaw = false;
 
     @Name("See onGround")
-    public Boolean seeOnGround = true;
+    public Boolean seeOnGround = false;
     @Name("See Pos")
     public Boolean seePos = false;
 
@@ -31,4 +31,9 @@ public class HUDOptions implements Options {
     public Integer yawDecimalPlaces = 6;
     @Name("See Server Side Sprint (approx.)")
     public Boolean seeServerSideSprint = false;
+    @Name("See Attribute Swaps")
+    public Boolean seeAttributeSwaps = false;
+    @Name("Late/Early Attribute Swap Timeout")
+    @Range(min=0,max=20)
+    public Integer attributeSwapTimeout = 0;
 }
