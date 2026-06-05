@@ -1,14 +1,10 @@
 package com.maximumg9.g9utils.config.gui;
 
-import com.maximumg9.g9utils.config.Name;
-import com.maximumg9.g9utils.config.Options;
-import com.maximumg9.g9utils.config.Range;
-import com.maximumg9.g9utils.config.TypedField;
+import com.maximumg9.g9utils.config.*;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 
 import java.util.function.Function;
@@ -111,8 +107,19 @@ public class FieldWidget<W extends Element & Drawable & Selectable,V,O> {
                         opts,
                         name
                     );
-        } else if(currentValue instanceof KeyBinding binding) {
+        } else if(currentValue instanceof Keybind bind) {
+            Convertibility<V,Keybind> c = Convertibility.classEquality(
+                field.getValueType(),
+                Keybind.class
+            );
 
+            return c.cA(
+                KeybindWidget.builder(
+                    field.deduce(Keybind.class),
+                    bind,
+                    name
+                )
+            );
         }
         throw new IllegalArgumentException("NUH UH! THAT'S NOT A VALID TYPE YOU!!!!");
     }

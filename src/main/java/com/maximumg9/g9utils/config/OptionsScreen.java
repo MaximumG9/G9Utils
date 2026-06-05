@@ -74,10 +74,6 @@ public class OptionsScreen<O extends Options> extends Screen {
         Objects.requireNonNull(this.client).setScreen(this.parent);
     }
 
-    public void update() {
-
-    }
-
     @Override
     public boolean keyPressed(KeyInput input) {
         return super.keyPressed(input);

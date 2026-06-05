@@ -1,8 +1,10 @@
 package com.maximumg9.g9utils.options;
 
+import com.maximumg9.g9utils.config.Keybind;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Options;
 import com.maximumg9.g9utils.config.Range;
+import net.minecraft.client.util.InputUtil;
 
 @SuppressWarnings("CanBeFinal")
 public class TechnicallyCheatOptions implements Options {
@@ -25,4 +27,7 @@ public class TechnicallyCheatOptions implements Options {
     public Float airAccelerate = 5.0f;
     @Name("Remove Jump Cooldown")
     public Boolean constantJump = false;
+
+    @Name("Test keybind")
+    public Keybind testKeyBind = Keybind.fromKeycode(InputUtil.GLFW_KEY_R);
 }

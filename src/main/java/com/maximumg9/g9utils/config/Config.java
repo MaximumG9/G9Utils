@@ -3,39 +3,32 @@ package com.maximumg9.g9utils.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.maximumg9.g9utils.Util;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
-import java.util.HashMap;
 
 public class Config<O extends Options> {
     private transient final Class<O> optionClass;
     @Nullable private transient final File configFile;
     private O options;
-    private final Gson gson;
-    private final BindingTypeAdapters.BindingDeserializer<O> bindingDeserializer;
+    private static final Gson gson;
+    static {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(
+            Keybind.class,
+            new BindingTypeAdapters.BindingSerializer()
+        );
+        builder.registerTypeAdapter(
+            Keybind.class,
+            new BindingTypeAdapters.BindingDeserializer()
+        );
+        gson = builder.create();
+    }
 
     public Config(@Nullable File configFile, OptionsFactory<O> factory) {
         this.options = factory.create();
         this.optionClass = Util.getClassStrict(this.options);
         this.configFile = configFile;
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(
-            KeyBinding.class,
-            new BindingTypeAdapters.BindingSerializer()
-        );
-        this.bindingDeserializer = new BindingTypeAdapters.BindingDeserializer<>(this.options);
-        builder.registerTypeAdapter(
-            KeyBinding.class,
-            bindingDeserializer
-        );
-        this.gson = builder.create();
-    }
-
-    public HashMap<InputUtil.Key, KeyBinding> getAllKeybinds() {
-        return this.bindingDeserializer.getCustomBindings();
     }
 
     public void saveConfig() throws IOException {
