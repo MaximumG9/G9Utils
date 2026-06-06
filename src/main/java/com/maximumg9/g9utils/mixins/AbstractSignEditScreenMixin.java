@@ -31,7 +31,7 @@ public class AbstractSignEditScreenMixin {
         at=@At("TAIL")
     )
     public void wrap(SignBlockEntity blockEntity, boolean front, boolean filtered, Text title, CallbackInfo ci) {
-        if(G9utils.opt().cheats.opt().dontBeEvilAndWrong) {
+        if(G9utils.opt().cheats.dontBeEvilAndWrong) {
             this.messages = Arrays.stream(this.text.getMessages(filtered))
                 .map(Util::getSafeString)
                 .toArray(String[]::new);

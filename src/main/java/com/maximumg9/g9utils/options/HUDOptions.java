@@ -1,16 +1,11 @@
 package com.maximumg9.g9utils.options;
 
-import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Options;
 import com.maximumg9.g9utils.config.Range;
 
 @SuppressWarnings("CanBeFinal")
 public class HUDOptions implements Options {
-    public static Config<HUDOptions> create() {
-        return new Config<>(null, HUDOptions::new);
-    }
-
     @Name("See Cos and Sin of Yaw")
     public Boolean seeCosAndSinForYaw = false;
     @Name("See Yaw in Radians")
@@ -25,7 +20,7 @@ public class HUDOptions implements Options {
 
     @Name("See Velocity")
     public Boolean seeVel = false;
-    @Name("See Sword Hit Type")
+    @Name("See Hit Type")
     public Boolean seeSwordHitType = false;
 
     @Name("Pos Decimal places")

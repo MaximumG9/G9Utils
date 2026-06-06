@@ -1,15 +1,18 @@
-package com.maximumg9.g9utils.config;
+package com.maximumg9.g9utils.config.gui;
 
+import com.maximumg9.g9utils.config.Options;
+import com.maximumg9.g9utils.config.OptionsScreen;
+import com.maximumg9.g9utils.config.TypedField;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 
 public class ConfigButton<O extends Options> extends ButtonWidget.Text {
-    public final Config<O> config;
+    public final O options;
 
     public ConfigButton(
-        Config<O> config,
+        O options,
         int x, int y,
         int width, int height,
         net.minecraft.text.Text message,
@@ -19,19 +22,35 @@ public class ConfigButton<O extends Options> extends ButtonWidget.Text {
             x, y,
             width, height,
             message,
-            (button) -> ConfigButton.openConfig(config),
+            (button) -> {
+                MinecraftClient client = MinecraftClient.getInstance();
+                client.setScreen(
+                    new OptionsScreen<>(
+                        client.currentScreen,
+                        options
+                    )
+                );
+            },
             narrationSupplier
         );
-        this.config = config;
+        this.options = options;
     }
 
-    private static void openConfig(Config<?> config) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        client.setScreen(
-            new ConfigScreen<>(
-                client.currentScreen,
-                config
-            )
+    public static <O extends Options, K>
+    FieldWidget.FieldWidgetBuilder<ConfigButton<O>,O,K>
+    builder(
+        TypedField<O,K> field,
+        O options,
+        String name
+    ) {
+        return new FieldWidget.FieldWidgetBuilder<>(
+            (x, y, width, height, name1) ->
+                new ConfigButton.Builder<>(net.minecraft.text.Text.of(name1), options)
+                    .dimensions(x, y, width, height)
+                    .build(),
+            (configButton) -> configButton.options,
+            field,
+            name
         );
     }
 
@@ -43,12 +62,12 @@ public class ConfigButton<O extends Options> extends ButtonWidget.Text {
         private int width = 150;
         private int height = 20;
         private final NarrationSupplier narrationSupplier;
-        private final Config<O> config;
+        private final O options;
 
-        public Builder(net.minecraft.text.Text message, Config<O> config) {
+        public Builder(net.minecraft.text.Text message, O options) {
             this.narrationSupplier = ButtonWidget.DEFAULT_NARRATION_SUPPLIER;
             this.message = message;
-            this.config = config;
+            this.options = options;
         }
 
         public ConfigButton.Builder<O> position(int x, int y) {
@@ -69,7 +88,7 @@ public class ConfigButton<O extends Options> extends ButtonWidget.Text {
 
         public ConfigButton<O> build() {
             return new ConfigButton<>(
-                this.config,
+                this.options,
                 this.x, this.y,
                 this.width, this.height,
                 this.message,

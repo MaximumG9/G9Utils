@@ -66,16 +66,17 @@ public class G9HudLayer {
 
                 float s = MathHelper.sin(client.player.getYaw() * 0.017453292F);
 
-                return Text.literal(
-                    String.format(
-                        "%." + G9utils.opt().hudOptions.opt().yawDecimalPlaces + "f",
-                        s
-                    )
-                );
-            },
-            Text.literal("sin(yaw):"),
-            () -> G9utils.opt().hudOptions.opt().seeCosAndSinForYaw
-        );
+                    return Text.literal(
+                        String.format(
+                            "%." + G9utils.opt().hudOptions.yawDecimalPlaces + "f",
+                            s
+                        )
+                    );
+                },
+                Text.literal("sin(yaw):"),
+                () -> G9utils.opt().hudOptions.seeCosAndSinForYaw
+            );
+
         hud.g9Utils$addValue(
             () -> {
                 if(client.player == null) return Text.literal("");
@@ -84,13 +85,13 @@ public class G9HudLayer {
 
                 return Text.literal(
                     String.format(
-                        "%." + G9utils.opt().hudOptions.opt().yawDecimalPlaces + "f",
+                        "%." + G9utils.opt().hudOptions.yawDecimalPlaces + "f",
                         c
                     )
                 );
             },
             Text.literal("cos(yaw):"),
-            () -> G9utils.opt().hudOptions.opt().seeCosAndSinForYaw
+            () -> G9utils.opt().hudOptions.seeCosAndSinForYaw
         );
         hud.g9Utils$addValue(
             () -> {
@@ -102,13 +103,13 @@ public class G9HudLayer {
 
                 return Text.literal(
                     String.format(
-                        "%." + G9utils.opt().hudOptions.opt().yawDecimalPlaces + "f",
+                        "%." + G9utils.opt().hudOptions.yawDecimalPlaces + "f",
                         degRadYaw
                     )
                 );
             },
             Text.literal("radian rounded yaw:"),
-            () -> G9utils.opt().hudOptions.opt().seeRadianRoundedYaw
+            () -> G9utils.opt().hudOptions.seeRadianRoundedYaw
         );
         hud.g9Utils$addValue(
             () -> {
@@ -116,13 +117,13 @@ public class G9HudLayer {
 
                 return Text.literal(
                     String.format(
-                        "%." + G9utils.opt().hudOptions.opt().yawDecimalPlaces + "f",
+                        "%." + G9utils.opt().hudOptions.yawDecimalPlaces + "f",
                         client.player.getYaw()
                     )
                 );
             },
             Text.literal("yaw:"),
-            () -> G9utils.opt().hudOptions.opt().seeAccurateYaw
+            () -> G9utils.opt().hudOptions.seeAccurateYaw
         );
 
         hud.g9Utils$addValue(
@@ -132,7 +133,7 @@ public class G9HudLayer {
                 return Text.literal(String.valueOf(client.player.isOnGround()));
             },
             Text.literal("[c]grounded:"),
-            () -> G9utils.opt().hudOptions.opt().seeOnGround
+            () -> G9utils.opt().hudOptions.seeOnGround
         );
         hud.g9Utils$addValue(
             () -> {
@@ -141,7 +142,7 @@ public class G9HudLayer {
                 return Text.literal(String.valueOf(((PlayerMixinDuck)client.player).g9Utils$wasAirborneLastFrame()));
             },
             Text.literal("[c]wasOnGround:"),
-            () -> G9utils.opt().hudOptions.opt().seeOnGround && G9utils.opt().cheats.opt().quakeAir
+            () -> G9utils.opt().hudOptions.seeOnGround && G9utils.opt().cheats.quakeAir
         );
         hud.g9Utils$addValue(
             () -> {
@@ -156,7 +157,7 @@ public class G9HudLayer {
                 return Text.literal(String.valueOf(p.isOnGround()));
             },
             Text.literal("[s]grounded:"),
-            () -> G9utils.opt().hudOptions.opt().seeOnGround && client.getServer() != null
+            () -> G9utils.opt().hudOptions.seeOnGround && client.getServer() != null
         );
 
         hud.g9Utils$addValue(
@@ -165,9 +166,9 @@ public class G9HudLayer {
 
                 return Text.literal(
                     String.format(
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f",
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f," +
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f," +
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f",
                         client.player.getX(),
                         client.player.getY(),
                         client.player.getZ()
@@ -175,7 +176,7 @@ public class G9HudLayer {
                 );
             },
             Text.literal("[c]pos:"),
-            () -> G9utils.opt().hudOptions.opt().seePos
+            () -> G9utils.opt().hudOptions.seePos
         );
         hud.g9Utils$addValue(
             () -> {
@@ -189,9 +190,9 @@ public class G9HudLayer {
 
                 return Text.literal(
                     String.format(
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f",
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f," +
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f," +
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f",
                         p.getX(),
                         p.getY(),
                         p.getZ()
@@ -199,7 +200,7 @@ public class G9HudLayer {
                 );
             },
             Text.literal("[s]pos:"),
-            () -> G9utils.opt().hudOptions.opt().seePos && client.getServer() != null
+            () -> G9utils.opt().hudOptions.seePos && client.getServer() != null
         );
 
         hud.g9Utils$addValue(
@@ -208,9 +209,9 @@ public class G9HudLayer {
 
                 return Text.literal(
                     String.format(
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f",
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f," +
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f," +
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f",
                         client.player.getVelocity().x,
                         client.player.getVelocity().y,
                         client.player.getVelocity().z
@@ -218,7 +219,7 @@ public class G9HudLayer {
                 );
             },
             Text.literal("[c]vel:"),
-            () -> G9utils.opt().hudOptions.opt().seeVel
+            () -> G9utils.opt().hudOptions.seeVel
         );
         hud.g9Utils$addValue(
             () -> {
@@ -226,13 +227,13 @@ public class G9HudLayer {
 
                 return Text.literal(
                     String.format(
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f,",
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f,",
                         client.player.getVelocity().horizontalLength()
                     )
                 );
             },
             Text.literal("[c]velh:"),
-            () -> G9utils.opt().hudOptions.opt().seeVel
+            () -> G9utils.opt().hudOptions.seeVel
         );
         hud.g9Utils$addValue(
             () -> {
@@ -240,13 +241,13 @@ public class G9HudLayer {
 
                 return Text.literal(
                     String.format(
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f,",
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f,",
                          ((PlayerMixinDuck)client.player).g9Utils$getLastCurrentSpeed()
                     )
                 );
             },
             Text.literal("[c]\"currentspeed\":"),
-            () -> G9utils.opt().hudOptions.opt().seeVel && G9utils.opt().cheats.opt().quakeAir
+            () -> G9utils.opt().hudOptions.seeVel && G9utils.opt().cheats.quakeAir
         );
 
         hud.g9Utils$addValue(
@@ -261,9 +262,9 @@ public class G9HudLayer {
 
                 return Text.literal(
                     String.format(
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f," +
-                        "%." + G9utils.opt().hudOptions.opt().posDecimalPlaces + "f",
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f," +
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f," +
+                        "%." + G9utils.opt().hudOptions.posDecimalPlaces + "f",
                         p.getVelocity().x,
                         p.getVelocity().y,
                         p.getVelocity().z
@@ -271,7 +272,7 @@ public class G9HudLayer {
                 );
             },
             Text.literal("[s]vel:"),
-            () -> G9utils.opt().hudOptions.opt().seeVel && client.getServer() != null
+            () -> G9utils.opt().hudOptions.seeVel && client.getServer() != null
         );
 
         hud.g9Utils$addValue(
@@ -281,7 +282,7 @@ public class G9HudLayer {
                 return G9utils.lastSwordHitType.text;
             },
             Text.literal("Last Hit:"),
-            () -> G9utils.opt().hudOptions.opt().seeSwordHitType
+            () -> G9utils.opt().hudOptions.seeSwordHitType
         );
 
         hud.g9Utils$addValue(
@@ -292,7 +293,7 @@ public class G9HudLayer {
                 return Text.literal("No Swap Done");
             },
             Text.literal("Attribute Swap:"),
-            () -> G9utils.opt().hudOptions.opt().seeAttributeSwaps
+            () -> G9utils.opt().hudOptions.seeAttributeSwaps
         );
 
 
@@ -311,7 +312,7 @@ public class G9HudLayer {
                 );
             },
             Text.literal("[c]sssprinting:"),
-            () -> G9utils.opt().hudOptions.opt().seeServerSideSprint
+            () -> G9utils.opt().hudOptions.seeServerSideSprint
         );
     }
 

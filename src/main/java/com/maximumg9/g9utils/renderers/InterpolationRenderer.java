@@ -33,7 +33,7 @@ public class InterpolationRenderer implements DebugRenderer.Renderer {
 
     @Override
     public void render(double cameraX, double cameraY, double cameraZ, DebugDataStore store, Frustum frustum, float tickProgress) {
-        if(!G9utils.opt().rendering.opt().visualizeInterpolation) return;
+        if(!G9utils.opt().rendering.visualizeInterpolation) return;
         if(this.client.world == null) return;
         for(Entity entity : client.world.getEntities()) {
             if (entity.isInvisible() ||
@@ -45,12 +45,12 @@ public class InterpolationRenderer implements DebugRenderer.Renderer {
                 PositionInterpolator interpolator = entity.getInterpolator();
                 Objects.requireNonNull(interpolator);
                 if(interpolator instanceof LinearPositionalInterpolator lin &&
-                    G9utils.opt().cheats.opt().disableMultiTickInterpolation) {
+                    G9utils.opt().cheats.disableMultiTickInterpolation) {
                     visualizeLinearInterpolation(entity, lin);
                 } else {
                     visualizeNormalInterpolation(entity, interpolator);
                 }
-            } else if(entity == client.player && G9utils.opt().rendering.opt().visualizeOwnInterpolation) {
+            } else if(entity == client.player && G9utils.opt().rendering.visualizeOwnInterpolation) {
                 int color = ColorHelper.getArgb(255,0,255,0);
 
                 if(clientPlayerInterpPos == null) continue;
