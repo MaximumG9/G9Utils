@@ -13,10 +13,12 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class G9utils implements ModInitializer {
     private static Config<Options> config;
-    private static final File FILE = new File("g9utils-options.json");
+    private static final File CONFIG_FILE = new File("config/g9utils-options.json");
+    private static final File OLD_CONFIG_FILE = new File("config/g9utils-options-old.json");
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static SwordHitType lastSwordHitType = null;
@@ -38,13 +40,13 @@ public class G9utils implements ModInitializer {
     }
 
     public static void onMCInitEnd() {
-        config = new Config<>(FILE, Options::new, Options.class);
+        config = new Config<>(CONFIG_FILE, Options::new, Options.class);
         LOGGER.info("Initializing G9Utils");
         try {
             config.loadConfig();
         } catch (IOException e) {
             // if the config file doesn't exist / is malformed save a default config file
-            LOGGER.warn("Failed to read config file, overwriting", e);
+            LOGGER.warn("Failed to read config file (likely missing or corrupted)", e);
             config.setToDefault();
             forceSaveConfig();
         }
@@ -52,12 +54,21 @@ public class G9utils implements ModInitializer {
             // sometimes with updates and stuff the config can be null
             LOGGER.warn("Config file was null, overwriting");
             config.setToDefault();
-            forceSaveConfig();
+        } else if(!Objects.equals(config.opt().CONFIG_VERSION, Options.MOD_CONFIG_VERSION)) {
+            LOGGER.warn("Config file was of config version {} but g9utils is of config version {}", config.opt().CONFIG_VERSION, Options.MOD_CONFIG_VERSION);
+            LOGGER.warn("Moving previous config to {} ", OLD_CONFIG_FILE);
+            if(CONFIG_FILE.renameTo(OLD_CONFIG_FILE)) {
+                LOGGER.warn("Successfully moved outdated config file to {}, writing new default config", OLD_CONFIG_FILE);
+            } else {
+                throw new IllegalStateException("Failed to back up outdated G9Utils config, stopping game");
+            }
+            config.setToDefault();
         }
-        forceSaveConfig();
         if(config.opt() == null) {
             LOGGER.error("Default config is null");
         }
+        forceSaveConfig();
+
         LOGGER.info("Done initializing G9Utils");
     }
 

@@ -29,6 +29,10 @@ public class TypedField<T,O> {
         return this.backingField.getAnnotation(annotationClass);
     }
 
+    public <A extends java.lang.annotation.Annotation> boolean isAnnotationPresent(Class<A> annotationClass) {
+        return this.backingField.isAnnotationPresent(annotationClass);
+    }
+
     public void setAccessible(boolean accessibility) {
         this.backingField.setAccessible(accessibility);
     }

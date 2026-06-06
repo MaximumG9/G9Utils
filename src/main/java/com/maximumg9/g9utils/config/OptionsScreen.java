@@ -32,7 +32,7 @@ public class OptionsScreen<O extends Options> extends Screen {
 
     public static boolean isValidField(TypedField<?,?> f, Object rootObj) {
         return (f.getModifiers() & (Modifier.STATIC | Modifier.TRANSIENT)) == 0 &&
-            f.canAccess(rootObj);
+            f.canAccess(rootObj) && !f.isAnnotationPresent(DontShowInGUI.class);
     }
 
     @Override

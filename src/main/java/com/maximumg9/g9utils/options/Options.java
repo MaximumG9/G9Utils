@@ -1,9 +1,15 @@
 package com.maximumg9.g9utils.options;
 
+import com.maximumg9.g9utils.config.DontShowInGUI;
 import com.maximumg9.g9utils.config.Name;
 
 @SuppressWarnings("CanBeFinal")
 public class Options implements com.maximumg9.g9utils.config.Options {
+    public static final Integer MOD_CONFIG_VERSION = 1;
+
+    @DontShowInGUI
+    public Integer CONFIG_VERSION = MOD_CONFIG_VERSION;
+
     @Name("HUD")
     public HUDOptions hudOptions = new HUDOptions();
 
