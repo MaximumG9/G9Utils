@@ -1,9 +1,9 @@
 package com.maximumg9.g9utils.mixins;
 
 import com.maximumg9.g9utils.AttributeSwap;
-import com.maximumg9.g9utils.renderers.G9HudLayer;
 import com.maximumg9.g9utils.G9utils;
 import com.maximumg9.g9utils.InGameHudDuck;
+import com.maximumg9.g9utils.renderers.G9HudLayer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -31,17 +30,15 @@ public abstract class MinecraftClientMixin {
     @Shadow
     @org.jspecify.annotations.Nullable
     public ClientPlayerInteractionManager interactionManager;
-    @Unique
-    private boolean attackedThisTick = false;
 
     @Redirect(method="doItemUse", at= @At(value = "INVOKE", target = "Lnet/minecraft/util/Hand;values()[Lnet/minecraft/util/Hand;"))
     private Hand[] rearrangeOrder() {
         if(this.player == null) throw new IllegalStateException("WTF");
         if((
                 this.player.getStackInHand(Hand.MAIN_HAND).isIn(ItemTags.AXES) &&
-                G9utils.opt().cheats.opt().dontStripWithItemInOffhand
+                G9utils.opt().cheats.dontStripWithItemInOffhand
             ) ||
-            G9utils.opt().cheats.opt().prioritizeOffhand
+            G9utils.opt().cheats.prioritizeOffhand
         ) {
             return new Hand[] {Hand.OFF_HAND, Hand.MAIN_HAND};
         }
@@ -50,10 +47,13 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method = "doAttack",at= @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V"))
     public void doAttack(CallbackInfoReturnable<Boolean> cir) {
+        assert this.interactionManager != null;
+        assert this.player != null;
+
         this.interactionManager.syncSelectedSlot();
         G9utils.timeSinceLastAttack = 0;
         if(
-            G9utils.timeSinceLastSwap <= G9utils.opt().hudOptions.opt().attributeSwapTimeout &&
+            G9utils.timeSinceLastSwap <= G9utils.opt().hudOptions.attributeSwapTimeout &&
                 G9utils.timeSinceLastSwap > 0
         ) {
             G9utils.lastAttributeSwap = new AttributeSwap.FailedAttributeSwap(
@@ -73,6 +73,11 @@ public abstract class MinecraftClientMixin {
         }
     }
 
+    @Inject(method = "handleInputEvents",at=@At("HEAD"))
+    public void handleInputs(CallbackInfo ci) {
+        G9utils.handleInputs((MinecraftClient) (Object) this);
+    }
+
     @Inject(method = "tick",at=@At("HEAD"))
     public void tick(CallbackInfo ci) {
         G9utils.tick();
@@ -80,6 +85,7 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method="<init>",at=@At("TAIL"))
     public void initRenderer(RunArgs args, CallbackInfo ci) {
+        G9utils.onMCInitEnd();
         G9HudLayer.initHUD((MinecraftClient) (Object) this,(InGameHudDuck) this.inGameHud);
     }
 }

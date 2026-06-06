@@ -50,7 +50,7 @@ public class CylinderRenderHelper {
             return;
         }
 
-        int divisions = G9utils.opt().rendering.opt().cylindricalDivisions;
+        int divisions = G9utils.opt().rendering.cylindricalDivisions;
 
         int preFramebufferWidth = cl.getWindow().getFramebufferWidth();
         int preFramebufferHeight = cl.getWindow().getFramebufferHeight();

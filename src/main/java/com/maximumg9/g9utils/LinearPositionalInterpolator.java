@@ -36,7 +36,7 @@ public class LinearPositionalInterpolator extends PositionInterpolator {
 
     @Override
     public void refreshPositionAndAngles(Vec3d pos, float yaw, float pitch) {
-        if(G9utils.opt().cheats.opt().disableMultiTickInterpolation) {
+        if(G9utils.opt().cheats.disableMultiTickInterpolation) {
             active = true;
             ticksSinceLastData = 0;
             prevRecvdPos = lastRecvdPos;
@@ -52,7 +52,7 @@ public class LinearPositionalInterpolator extends PositionInterpolator {
 
     @Override
     public Vec3d getLerpedPos() {
-        if(G9utils.opt().cheats.opt().disableMultiTickInterpolation) {
+        if(G9utils.opt().cheats.disableMultiTickInterpolation) {
             return this.lastRecvdPos;
         } else {
             return super.getLerpedPos();
@@ -61,7 +61,7 @@ public class LinearPositionalInterpolator extends PositionInterpolator {
 
     @Override
     public float getLerpedYaw() {
-        if(G9utils.opt().cheats.opt().disableMultiTickInterpolation) {
+        if(G9utils.opt().cheats.disableMultiTickInterpolation) {
             return this.lastRecvdYaw;
         } else {
             return super.getLerpedYaw();
@@ -70,7 +70,7 @@ public class LinearPositionalInterpolator extends PositionInterpolator {
 
     @Override
     public float getLerpedPitch() {
-        if(G9utils.opt().cheats.opt().disableMultiTickInterpolation) {
+        if(G9utils.opt().cheats.disableMultiTickInterpolation) {
             return this.lastRecvdPitch;
         } else {
             return super.getLerpedPitch();
@@ -79,7 +79,7 @@ public class LinearPositionalInterpolator extends PositionInterpolator {
 
     @Override
     public void tick() {
-        if(!G9utils.opt().cheats.opt().disableMultiTickInterpolation) {
+        if(!G9utils.opt().cheats.disableMultiTickInterpolation) {
             super.tick();
             return;
         }
@@ -104,7 +104,7 @@ public class LinearPositionalInterpolator extends PositionInterpolator {
         this.lastRecvdPitch = lastRecvdPitch + pitchDiff;
 
         float delta = Math.min((float) ticksSinceLastData,this.updateRate) / (this.updateRate)
-            + G9utils.opt().cheats.opt().interpOffset;
+            + G9utils.opt().cheats.interpOffset;
 
         // figure out why needed
         if(lastRecvdPos != null) {
@@ -135,6 +135,6 @@ public class LinearPositionalInterpolator extends PositionInterpolator {
 
     @Override
     public boolean isInterpolating() {
-        return G9utils.opt().cheats.opt().disableMultiTickInterpolation ? this.active : super.isInterpolating();
+        return G9utils.opt().cheats.disableMultiTickInterpolation ? this.active : super.isInterpolating();
     }
 }

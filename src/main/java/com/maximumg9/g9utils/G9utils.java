@@ -5,7 +5,9 @@ import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.options.Options;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 
@@ -32,28 +34,50 @@ public class G9utils implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        config = new Config<>(FILE, Options::new);
+
+    }
+
+    public static void onMCInitEnd() {
+        config = new Config<>(FILE, Options::new, Options.class);
         LOGGER.info("Initializing G9Utils");
         try {
             config.loadConfig();
         } catch (IOException e) {
             // if the config file doesn't exist / is malformed save a default config file
             LOGGER.warn("Failed to read config file, overwriting", e);
-            try {
-                config = new Config<>(FILE, Options::new);
-                config.saveConfig();
-            } catch (IOException ex) {
-                LOGGER.error("Failed to save config file, we're screwed", ex);
-                throw new RuntimeException(ex);
-            }
+            config.setToDefault();
+            forceSaveConfig();
         }
+        if(config.opt() == null) {
+            // sometimes with updates and stuff the config can be null
+            LOGGER.warn("Config file was null, overwriting");
+            config.setToDefault();
+            forceSaveConfig();
+        }
+        forceSaveConfig();
+        if(config.opt() == null) {
+            LOGGER.error("Default config is null");
+        }
+        LOGGER.info("Done initializing G9Utils");
+    }
+
+    private static void forceSaveConfig() {
         try {
             config.saveConfig();
         } catch (IOException e) {
             LOGGER.error("Failed to save config file, we're screwed", e);
             throw new RuntimeException(e);
         }
-        LOGGER.info("Done Initializing G9Utils");
+    }
+
+    public static void handleInputs(MinecraftClient client) {
+        assert client.player != null;
+        while(G9utils.opt().cheats.swingMainHandBind.wasPressed()) {
+            client.player.swingHand(Hand.MAIN_HAND);
+        }
+        while(G9utils.opt().cheats.swingOffHandBind.wasPressed()) {
+            client.player.swingHand(Hand.OFF_HAND);
+        }
     }
 
     public static void tick() {

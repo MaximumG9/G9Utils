@@ -1,16 +1,11 @@
 package com.maximumg9.g9utils.options;
 
-import com.maximumg9.g9utils.config.Config;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Options;
 import com.maximumg9.g9utils.config.Range;
 
 @SuppressWarnings("CanBeFinal")
 public class DragonOptions implements Options {
-    public static Config<DragonOptions> create() {
-        return new Config<>(null, DragonOptions::new);
-    }
-
     @Name("Show Special Dragon Boxes")
     public Boolean showDragonHitboxes = false;
 

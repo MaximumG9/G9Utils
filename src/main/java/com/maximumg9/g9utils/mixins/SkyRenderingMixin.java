@@ -22,17 +22,17 @@ public class SkyRenderingMixin {
         )
     )
     public Matrix4f changeSkyRenderAngle(Matrix4fStack matrices, Matrix4fc matrix4fc) {
-        if(!G9utils.opt().rendering.opt().overrideSkyAngle) return matrices.mul(matrix4fc);
+        if(!G9utils.opt().rendering.overrideSkyAngle) return matrices.mul(matrix4fc);
         matrices.popMatrix();
         matrices.pushMatrix();
         matrices.rotate(
             RotationAxis.NEGATIVE_Y.rotationDegrees(
-                G9utils.opt().rendering.opt().skyAngleY + 180
+                G9utils.opt().rendering.skyAngleY + 180
             )
         );
         matrices.rotate(
             RotationAxis.NEGATIVE_X.rotationDegrees(
-                G9utils.opt().rendering.opt().skyAngleX + 90
+                G9utils.opt().rendering.skyAngleX + 90
             )
         );
         return matrices;
@@ -48,7 +48,7 @@ public class SkyRenderingMixin {
     )
     public void changeSunScale(Args args) {
         for(int i=0;i<3;i++) {
-            args.set(i, (Float) args.get(i) * G9utils.opt().rendering.opt().sunScale);
+            args.set(i, (Float) args.get(i) * G9utils.opt().rendering.sunScale);
         }
     }
 }

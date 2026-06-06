@@ -1,16 +1,13 @@
 package com.maximumg9.g9utils.options;
 
-import com.maximumg9.g9utils.config.Config;
+import com.maximumg9.g9utils.config.Keybind;
 import com.maximumg9.g9utils.config.Name;
 import com.maximumg9.g9utils.config.Options;
 import com.maximumg9.g9utils.config.Range;
+import net.minecraft.client.util.InputUtil;
 
 @SuppressWarnings("CanBeFinal")
 public class TechnicallyCheatOptions implements Options {
-    public static Config<TechnicallyCheatOptions> create() {
-        return new Config<>(null, TechnicallyCheatOptions::new);
-    }
-
     @Name("Deceleration Enabled (!)")
     public Boolean deceleration = true;
     @Name("Don't Stop Sprinting")
@@ -39,4 +36,10 @@ public class TechnicallyCheatOptions implements Options {
     @Name("Offset of Prediction for Linear Interpolation")
     @Range(min=0.0,max=1.0)
     public Float interpOffset = 0f;
+
+    @Name("Swing Main Hand")
+    public Keybind swingMainHandBind = Keybind.fromKeycode(InputUtil.GLFW_KEY_R);
+
+    @Name("Swing Off Hand")
+    public Keybind swingOffHandBind = Keybind.fromCodeWModifiers(InputUtil.Type.KEYSYM, InputUtil.GLFW_KEY_R, InputUtil.GLFW_MOD_SHIFT);
 }

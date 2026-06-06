@@ -28,8 +28,8 @@ public class DragonKBRenderer implements DebugRenderer.Renderer {
                        DebugDataStore store,
                        Frustum frustum,
                        float tickProgress) {
-        DragonOptions dragonOpts = G9utils.opt().dragonOptions.opt();
-        if(!dragonOpts.showDragonHitboxes) return;
+        DragonOptions dragonOpts = G9utils.opt().dragonOptions;
+        if(!dragonOpts.showDragonHitboxes) { return; }
 
         if(client.world == null) return;
 
