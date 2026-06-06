@@ -37,6 +37,9 @@ public class TechnicallyCheatOptions implements Options {
     @Range(min=0.0,max=1.0)
     public Float interpOffset = 0f;
 
-    @Name("Test keybind")
-    public Keybind testKeyBind = Keybind.fromKeycode(InputUtil.GLFW_KEY_R);
+    @Name("Swing Main Hand")
+    public Keybind swingMainHandBind = Keybind.fromKeycode(InputUtil.GLFW_KEY_R);
+
+    @Name("Swing Off Hand")
+    public Keybind swingOffHandBind = Keybind.fromCodeWModifiers(InputUtil.Type.KEYSYM, InputUtil.GLFW_KEY_R, InputUtil.GLFW_MOD_SHIFT);
 }

@@ -5,6 +5,7 @@ import com.maximumg9.g9utils.config.TypedField;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.input.KeyInput;
+import net.minecraft.client.input.MouseInput;
 
 public class KeybindWidget extends net.minecraft.client.gui.widget.ButtonWidget.Text {
     private Keybind keybind;
@@ -51,8 +52,10 @@ public class KeybindWidget extends net.minecraft.client.gui.widget.ButtonWidget.
     public boolean keyReleased(KeyInput input) {
         if(this.isFocused) {
             if(input.isEscape()) {
+                this.keybind.destroy();
                 this.keybind = Keybind.NONE;
             } else {
+                this.keybind.destroy();
                 this.keybind = Keybind.fromKey(input);
             }
             this.isFocused = false;
@@ -64,8 +67,14 @@ public class KeybindWidget extends net.minecraft.client.gui.widget.ButtonWidget.
     }
 
     @Override
+    protected boolean isValidClickButton(MouseInput input) {
+        return true;
+    }
+
+    @Override
     public void onClick(Click click, boolean doubled) {
         if(this.isFocused) {
+            this.keybind.destroy();
             this.keybind = Keybind.fromMouse(click.buttonInfo());
             this.isFocused = false;
             updateText();

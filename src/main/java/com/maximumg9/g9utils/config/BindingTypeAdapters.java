@@ -15,9 +15,9 @@ public class BindingTypeAdapters {
         @Override
         public JsonElement serialize(Keybind keybind, Type type, JsonSerializationContext jsonSerializationContext) {
             JsonObject obj = new JsonObject();
-            obj.addProperty("modifiers",keybind.modifiers());
-            obj.addProperty("boundKey",keybind.key().getTranslationKey());
-            return null;
+            obj.addProperty("modifiers",keybind.modifiers);
+            obj.addProperty("boundKey",keybind.key.getTranslationKey());
+            return obj;
         }
     }
 

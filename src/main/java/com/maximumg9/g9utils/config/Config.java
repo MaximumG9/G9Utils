@@ -2,13 +2,13 @@ package com.maximumg9.g9utils.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.maximumg9.g9utils.Util;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 
 public class Config<O extends Options> {
     private transient final Class<O> optionClass;
+    private transient final OptionsFactory<O> optionsFactory;
     @Nullable private transient final File configFile;
     private O options;
     private static final Gson gson;
@@ -25,9 +25,9 @@ public class Config<O extends Options> {
         gson = builder.create();
     }
 
-    public Config(@Nullable File configFile, OptionsFactory<O> factory) {
-        this.options = factory.create();
-        this.optionClass = Util.getClassStrict(this.options);
+    public Config(@Nullable File configFile, OptionsFactory<O> factory, Class<O> optionClass) {
+        this.optionsFactory = factory;
+        this.optionClass = optionClass;
         this.configFile = configFile;
     }
 
@@ -40,6 +40,10 @@ public class Config<O extends Options> {
 
     public O opt() {
         return this.options;
+    }
+
+    public void setToDefault() {
+        this.options = optionsFactory.create();
     }
 
     public void loadConfig() throws IOException {

@@ -5,7 +5,7 @@ import com.maximumg9.g9utils.config.gui.FieldWidget;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 
 import java.lang.reflect.Modifier;
@@ -22,7 +22,6 @@ public class OptionsScreen<O extends Options> extends Screen {
     private final Class<O> optionClass;
     private final List<FieldWidget<?,?,O>> widgets = new ArrayList<>();
     private final Screen parent;
-    public KeyBinding selectedKeybind;
 
     public OptionsScreen(Screen parent, O option) {
         super(Text.of(Util.getClassStrict(option).getSimpleName()));
@@ -75,8 +74,18 @@ public class OptionsScreen<O extends Options> extends Screen {
     }
 
     @Override
+    public boolean shouldCloseOnEsc() {
+        return false;
+    }
+
+    @Override
     public boolean keyPressed(KeyInput input) {
-        return super.keyPressed(input);
+        if(input.isEscape() && (input.modifiers() & InputUtil.GLFW_MOD_ALT) == 0) {
+            this.close();
+            return true;
+        } else {
+            return super.keyPressed(input);
+        }
     }
 
     @Override
