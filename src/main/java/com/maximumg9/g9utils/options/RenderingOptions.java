@@ -36,4 +36,7 @@ public class RenderingOptions implements Options {
 
     @Name("Visualize Own Interpolation")
     public Boolean visualizeOwnInterpolation = false;
+
+    @Name("Fixed desynced cooldown indicator from swings")
+    public Boolean fixedDesyncedCooldown = false;
 }
