@@ -52,7 +52,6 @@ public abstract class MinecraftClientMixin {
         assert this.interactionManager != null;
         assert this.player != null;
 
-        this.interactionManager.syncSelectedSlot();
         G9utils.timeSinceLastAttack = 0;
         if(
             G9utils.timeSinceLastSwap <= G9utils.opt().hudOptions.attributeSwapTimeout &&
