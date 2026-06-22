@@ -7,6 +7,7 @@ import com.maximumg9.g9utils.LinearPositionalInterpolator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.PositionInterpolator;
+import net.minecraft.world.World;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -43,5 +44,19 @@ public abstract class LivingEntityMixin {
     @Redirect(method="tickMovement",at= @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;forwardSpeed:F", opcode = Opcodes.PUTFIELD))
     private void modifyForwardsSpeed(LivingEntity entity, float value) {
         entity.forwardSpeed = G9utils.opt().cheats.deceleration ? entity.forwardSpeed * 0.98f : entity.forwardSpeed;
+    }
+
+    @WrapOperation(method = "onTrackedDataSet",at = @At(value = "INVOKE",target = "Lnet/minecraft/world/World;isClient()Z"))
+    private boolean queueActiveItemStackUpdate(World instance, Operation<Boolean> original) {
+        if(
+            instance.isClient() &&
+            G9utils.opt().rendering.fixedDesyncedItemUse &&
+            !G9utils.runningQueuedTagUpdate
+        ) {
+            G9utils.queuedLivingTagsUpdate.add((LivingEntity) (Object) this);
+            return false;
+        } else {
+            return  original.call(instance);
+        }
     }
 }

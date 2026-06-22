@@ -6,6 +6,7 @@ import com.maximumg9.g9utils.options.Options;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -13,6 +14,7 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class G9utils implements ModInitializer {
@@ -29,6 +31,9 @@ public class G9utils implements ModInitializer {
     public static AttributeSwap lastAttributeSwap = null;
 
     public static ImmutableSet<String> VANILLA_LANGUAGE_KEYS;
+
+    public static HashSet<LivingEntity> queuedLivingTagsUpdate = new HashSet<>();
+    public static boolean runningQueuedTagUpdate = false;
 
     public static Identifier id(String path) {
         return Identifier.of("g9utils",path);

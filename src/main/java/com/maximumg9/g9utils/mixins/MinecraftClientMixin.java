@@ -9,6 +9,7 @@ import net.minecraft.client.RunArgs;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Hand;
 import org.jetbrains.annotations.Nullable;
@@ -70,6 +71,25 @@ public abstract class MinecraftClientMixin {
             );
             G9utils.timeSinceLastSwap = -1;
             G9utils.timeSinceLastAttack = -1;
+        }
+    }
+
+    @Inject(
+        method = "render",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/network/PacketApplyBatcher;apply()V",
+            shift = At.Shift.AFTER
+        )
+    )
+    public void postApply(boolean tick, CallbackInfo ci) {
+        if(!G9utils.queuedLivingTagsUpdate.isEmpty()) {
+            G9utils.runningQueuedTagUpdate = true;
+            for(LivingEntity entity : G9utils.queuedLivingTagsUpdate) {
+                entity.onTrackedDataSet(LivingEntity.LIVING_FLAGS);
+            }
+            G9utils.runningQueuedTagUpdate = false;
+            G9utils.queuedLivingTagsUpdate.clear();
         }
     }
 

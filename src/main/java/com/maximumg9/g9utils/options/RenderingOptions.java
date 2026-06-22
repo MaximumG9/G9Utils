@@ -39,4 +39,7 @@ public class RenderingOptions implements Options {
 
     @Name("Fixed desynced cooldown indicator from swings")
     public Boolean fixedDesyncedCooldown = false;
+
+    @Name("Fixed desynced item use animation")
+    public Boolean fixedDesyncedItemUse = false;
 }

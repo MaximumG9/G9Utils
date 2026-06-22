@@ -35,5 +35,5 @@ public class HUDOptions implements Options {
     public Boolean seeAttributeSwaps = false;
     @Name("Late/Early Attribute Swap Timeout")
     @Range(min=0,max=20)
-    public Integer attributeSwapTimeout = 0;
+    public Integer attributeSwapTimeout = 5;
 }

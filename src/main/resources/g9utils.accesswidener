@@ -36,3 +36,5 @@ accessible field net/minecraft/entity/PositionInterpolator entity Lnet/minecraft
 accessible method net/minecraft/entity/Entity setRotation (FF)V
 
 accessible method net/minecraft/client/network/ClientPlayerInteractionManager syncSelectedSlot ()V
+
+accessible field net/minecraft/entity/LivingEntity LIVING_FLAGS Lnet/minecraft/entity/data/TrackedData;
