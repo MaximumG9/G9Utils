@@ -32,6 +32,7 @@ public abstract class ClientPlayerInteractionManagerMixin {
 
     @Inject(method = "syncSelectedSlot",at = @At("HEAD"))
     public void hookSlotSwap(CallbackInfo ci) {
+        if(!G9utils.opt().hudOptions.seeAttributeSwaps) return;
         int currentSlot = this.client.player.getInventory().getSelectedSlot();
         if (currentSlot != this.lastSelectedSlot) {
             G9utils.possibleAttributeSwapStack = this.client.player.getInventory().getStack(lastSelectedSlot).copy();

@@ -48,6 +48,7 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method = "doAttack",at= @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V"))
     public void doAttack(CallbackInfoReturnable<Boolean> cir) {
+        if(!G9utils.opt().hudOptions.seeAttributeSwaps) return;
         assert this.interactionManager != null;
         assert this.player != null;
 

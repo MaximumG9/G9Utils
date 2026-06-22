@@ -59,7 +59,7 @@ public class G9utils implements ModInitializer {
             // sometimes with updates and stuff the config can be null
             LOGGER.warn("Config file was null, overwriting");
             config.setToDefault();
-        } else if(!Objects.equals(config.opt().CONFIG_VERSION, Options.MOD_CONFIG_VERSION)) {
+        } else if(config.opt().CONFIG_VERSION > Options.MOD_CONFIG_VERSION) {
             LOGGER.warn("Config file was of config version {} but g9utils is of config version {}", config.opt().CONFIG_VERSION, Options.MOD_CONFIG_VERSION);
             LOGGER.warn("Moving previous config to {} ", OLD_CONFIG_FILE);
             if(CONFIG_FILE.renameTo(OLD_CONFIG_FILE)) {
@@ -68,6 +68,9 @@ public class G9utils implements ModInitializer {
                 throw new IllegalStateException("Failed to back up outdated G9Utils config, stopping game");
             }
             config.setToDefault();
+        }
+        if(!Objects.equals(config.opt().CONFIG_VERSION, Options.MOD_CONFIG_VERSION)) {
+
         }
         if(config.opt() == null) {
             LOGGER.error("Default config is null");
